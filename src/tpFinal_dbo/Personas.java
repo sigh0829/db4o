@@ -24,13 +24,6 @@ public class Personas {
 	    }
 	}
 	
-	// date validation using SimpleDateFormat
-	// it will take a string and make sure it's in the proper 
-	// format as defined by you, and it will also make sure that
-	// it's a legal date
-
-
-	
 	public Persona ingresoPorTeclado(){
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
@@ -154,7 +147,7 @@ public class Personas {
 			private static final long serialVersionUID = 189422016090086047L;
 
 			public boolean match(Persona persona) {
-				return persona.getDni() == dni;
+				return persona.getDni().equals(dni) ;
 			}
 		});
 		

@@ -8,10 +8,14 @@ public class MainMenu {
 	    PersonaModificacion,
 	    PersonaBaja,
 	    PersonaListar,
+	    JuezAlta,
+	    JuezModificacion,
+	    JuezBaja,
+	    JuezListar,
 	    Salir
 	}
 	
-	public class PersonaMenu {
+	public class PersonaMenu extends MainMenu {
 		public retorno show(){
 			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner (System.in);
@@ -63,11 +67,62 @@ public class MainMenu {
 				throw e;
 			}
 			return null;
+		}
+	}
+	
+	public class JuezMenu extends MainMenu {
+		public retorno show(){
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner (System.in);
+			int selection=0;
+			int i=0;
 
+			try {
+				while(i==0) {
+					System.out.println("Seleccione una Opcion:"); 
+					System.out.println("[1] Alta"); 
+					System.out.println("[2] Modificacion"); 
+					System.out.println("[3] Baja"); 
+					System.out.println("[4] Listar"); 
+					System.out.println("[0] Volver al Menu Principal"); 
+					System.out.print("Opcion: ");
+			
+					selection = scanner.nextInt();  
+					//scanner2.close();
+					switch (selection){
 
+					case 1:
+						System.out.println("Alta de Jueces");
+						return retorno.JuezAlta;
 
+					case 2:
+						System.out.println("Modificacion de Jueces");
+						return retorno.JuezModificacion;
 
-			//return selection;
+					case 3:
+						System.out.println("Baja de Jueces");
+						return retorno.JuezBaja;
+
+					case 4:
+						System.out.println("Listado de Jueces");
+						return retorno.JuezListar;
+						
+					case 0:
+						i=1;
+						break;
+
+					default:
+						System.out.println("Opcion invalida. Intente de nuevo");
+
+					};
+				} 
+
+			} catch (Exception e) {
+				// Relanzo la excepcion
+				throw e;
+			}
+			return null;
+
 		}
 	}
 
@@ -76,12 +131,14 @@ public class MainMenu {
 		Scanner scanner = new Scanner (System.in);
 		int selection=0;
 		int i=0;
+		MainMenu menu;
 
 		while(i==0) {
 
 			System.out.println("Seleccione una Opcion:"); 
 			System.out.println("[1] Personas"); 
-			System.out.println("[2] Causas"); 
+			System.out.println("[2] Jueces");
+			System.out.println("[3] Causas");
 			System.out.println("[0] Salir"); 
 			System.out.print("Opcion: "); 
 			
@@ -92,10 +149,15 @@ public class MainMenu {
 
 			case 1:
 				//System.out.println("ABM de Personas");
-				MainMenu.PersonaMenu menu = new MainMenu.PersonaMenu();
+				menu = new MainMenu.PersonaMenu();
 				return menu.show();
 
 			case 2:
+				//System.out.println("ABM de Jueces");
+				menu = new MainMenu.JuezMenu();
+				return menu.show();
+				
+			case 3:
 				System.out.println("ABM de Causas");
 				//i=1;
 				break;

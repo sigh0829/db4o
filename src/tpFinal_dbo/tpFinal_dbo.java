@@ -6,11 +6,11 @@ public class tpFinal_dbo {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		//Personas personasAux = new Personas();
 		//Persona persona = new Persona("Iglesias", "Matias", "26192645", "m", "29/09/1977");
 		//personasAux.add(persona);
 		Personas personas = new Personas();
+		Jueces jueces = new Jueces();
 		MainMenu menu = new MainMenu();
 		MainMenu.retorno retorno = null;
 		while (retorno != MainMenu.retorno.Salir) {
@@ -38,7 +38,29 @@ public class tpFinal_dbo {
 					personas.listar();
 					break;
 					
+				case JuezAlta:
+					
+					if (jueces.add(jueces.ingresoPorTeclado())) {
+						System.out.println("Juez Guardado con Exito");
+					} else {
+						System.out.println("Error al Guardar Juez");
+					}
+					break;
+					
+				case JuezModificacion:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case JuezBaja:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case JuezListar:
+					jueces.listar();
+					break;
+					
 				default:
+					System.out.println("Operacion aun no soportada");
 					break;
 				}
 
