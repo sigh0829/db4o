@@ -9,10 +9,11 @@ public class Persona {
 	private String apellido;
 	private String dni;
 	private Sexo sexo;
-	private Date fechaNacimiento;
+	//private Date fechaNacimiento;
+	private String fechaNacimiento;
 	
 	public Persona(String nombre, String apellido, String dni, Sexo sexo,
-			Date fechaNacimiento) {
+			String fechaNacimiento) {
 		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -21,6 +22,10 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
+	public Persona() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the nombre
 	 */
@@ -72,13 +77,13 @@ public class Persona {
 	/**
 	 * @return the fechaNacimiento
 	 */
-	public Date getFechaNacimiento() {
+	public String getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 	/**
 	 * @param fechaNacimiento the fechaNacimiento to set
 	 */
-	public void setFechaNacimiento(Date fechaNacimiento) {
+	public void setFechaNacimiento(String fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
