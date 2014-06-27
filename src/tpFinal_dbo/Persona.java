@@ -1,5 +1,7 @@
 package tpFinal_dbo;
 
+import org.w3c.dom.ranges.RangeException;
+
 public class Persona {
 	
 	public class ExcepcionSexo extends Exception {
@@ -15,12 +17,12 @@ public class Persona {
 
 	private String nombre;
 	private String apellido;
-	private String dni;
+	private Long dni;
 	private String sexo;
 	//private Date fechaNacimiento;
 	private String fechaNacimiento;
 	
-	public Persona(String nombre, String apellido, String dni, String sexo,
+	public Persona(String nombre, String apellido, Long dni, String sexo,
 			String fechaNacimiento) {
 		super();
 		this.nombre = nombre;
@@ -61,13 +63,15 @@ public class Persona {
 	/**
 	 * @return the dni
 	 */
-	public String getDni() {
+	public Long getDni() {
 		return dni;
 	}
 	/**
 	 * @param dni the dni to set
 	 */
-	public void setDni(String dni) {
+	public void setDni(Long dni) {
+		if (dni.toString().length() > 8)
+			throw new RangeException((short) 0, "El dni debe tener 8 digitos como maximo");
 		this.dni = dni;
 	}
 	/**
@@ -99,7 +103,9 @@ public class Persona {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 	
-	
+	public String toString() {
+		return (this.getDni().toString() + " - " + this.getApellido() + ", " + this.getNombre() + "[" + this.getSexo() + "]" );
+	}
 	
 	
 }

@@ -3,6 +3,7 @@ package tpFinal_dbo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 import tpFinal_dbo.Personas.ExcepcionPersonaDuplicada;
@@ -15,6 +16,7 @@ public class tpFinal_dbo {
 		//Personas personasAux = new Personas();
 		//Persona persona = new Persona("Iglesias", "Matias", "26192645", "m", "29/09/1977");
 		//personasAux.add(persona);
+		Personas personas = new Personas();
 		MainMenu menu = new MainMenu();
 		MainMenu.retorno retorno = null;
 		while (retorno != MainMenu.retorno.Salir) {
@@ -22,10 +24,26 @@ public class tpFinal_dbo {
 				retorno = menu.show();
 				switch (retorno) {
 				case PersonaAlta:
-					Personas personas = new Personas();
-					personas.add(personas.ingresoPorTeclado());
+					
+					if (personas.add(personas.ingresoPorTeclado())) {
+						System.out.println("Persona Guardada con Exito");
+					} else {
+						System.out.println("Error al Guardar Persona");
+					}
 					break;
-
+					
+				case PersonaModificacion:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case PersonaBaja:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case PersonaListar:
+					personas.listar();
+					break;
+					
 				default:
 					break;
 				}

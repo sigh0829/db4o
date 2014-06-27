@@ -6,8 +6,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import org.w3c.dom.ranges.RangeException;
+
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
 public class Personas {
@@ -81,6 +84,7 @@ public class Personas {
 	public Persona ingresoPorTeclado(){
 		Scanner scanner = new Scanner (System.in);
 		String texto;
+		Long dni;
 		Persona persona = new Persona();
 
 		try {
@@ -92,10 +96,20 @@ public class Personas {
 			texto = scanner.nextLine();
 			persona.setNombre(texto);
 
-			System.out.print("Ingrese DNI: ");
-			texto = scanner.nextLine();
-			persona.setDni(texto);
-
+			
+			while (true) {
+				try {
+					System.out.print("Ingrese DNI: ");
+					dni = scanner.nextLong();
+					persona.setDni(dni);
+					break;
+				} catch (RangeException e) {
+					// TODO: handle exception
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			scanner.reset();
 			while (true) {
 				try {
 					System.out.print("Ingrese Sexo [m=Masculino f=Femenino]: ");
@@ -135,7 +149,7 @@ public class Personas {
 				db.store(persona);
 				db.close();
 			} else {
-				throw new ExcepcionPersonaDuplicada("Ya existe una persona con DNI " .concat(persona.getDni()));
+				throw new ExcepcionPersonaDuplicada("Ya existe una persona con DNI " .concat(persona.getDni().toString()));
 			}
 
 			
@@ -148,13 +162,29 @@ public class Personas {
 		return true;
 	}
 	
-	public Boolean exists(final String dni) {
+	public List<Persona> listar (){
+		ObjectContainer db = Db4oEmbedded.openFile("db/databaseFile.db4o");
+		List <Persona> personas =db.query(Persona.class);
+		System.out.println("-----------------------");
+		System.out.println("| Listado de Personas |");
+		System.out.println("-----------------------");
+		
+		for (Persona persona : personas) {
+			System.out.println(persona);
+		}
+		System.out.println("-----------------------");
+		System.out.printf("Total %d Personas\n", personas.size());
+		db.close();
+		return personas;
+	}
+	
+	public Boolean exists(final Long dni) {
 		Boolean existe;
 		ObjectContainer db = Db4oEmbedded.openFile("db/databaseFile.db4o");
 		
 		List <Persona> personas = db.query(new Predicate<Persona>() {
 			public boolean match(Persona persona) {
-				return persona.getDni().equalsIgnoreCase(dni);
+				return persona.getDni() == dni;
 			}
 		});
 		
