@@ -1,11 +1,5 @@
 package tpFinal_dbo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
-
 import tpFinal_dbo.Personas.ExcepcionPersonaDuplicada;
 
 public class tpFinal_dbo {

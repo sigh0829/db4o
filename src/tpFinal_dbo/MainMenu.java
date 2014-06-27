@@ -13,6 +13,7 @@ public class MainMenu {
 	
 	public class PersonaMenu {
 		public retorno show(){
+			@SuppressWarnings("resource")
 			Scanner scanner = new Scanner (System.in);
 			int selection=0;
 			int i=0;
@@ -71,6 +72,7 @@ public class MainMenu {
 	}
 
 	public retorno show() {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
 		int selection=0;
 		int i=0;

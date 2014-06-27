@@ -1,8 +1,5 @@
 package tpFinal_dbo;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -12,7 +9,6 @@ import tpFinal_dbo.Persona.ExcepcionValidacion;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 
 public class Personas {
@@ -36,6 +32,7 @@ public class Personas {
 
 	
 	public Persona ingresoPorTeclado(){
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
 		String texto;
 		Long dni;
@@ -151,6 +148,11 @@ public class Personas {
 		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
 		
 		List <Persona> personas = db.query(new Predicate<Persona>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 189422016090086047L;
+
 			public boolean match(Persona persona) {
 				return persona.getDni() == dni;
 			}
