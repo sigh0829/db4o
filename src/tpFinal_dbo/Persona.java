@@ -1,18 +1,26 @@
 package tpFinal_dbo;
 
-import java.util.Date;
-
 public class Persona {
+	
+	public class ExcepcionSexo extends Exception {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-	enum Sexo {masculino, femenino};
+		public ExcepcionSexo(String msg) {
+	        super(msg);
+	    }
+	}
+
 	private String nombre;
 	private String apellido;
 	private String dni;
-	private Sexo sexo;
+	private String sexo;
 	//private Date fechaNacimiento;
 	private String fechaNacimiento;
 	
-	public Persona(String nombre, String apellido, String dni, Sexo sexo,
+	public Persona(String nombre, String apellido, String dni, String sexo,
 			String fechaNacimiento) {
 		super();
 		this.nombre = nombre;
@@ -65,13 +73,17 @@ public class Persona {
 	/**
 	 * @return the sexo
 	 */
-	public Sexo getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 	/**
 	 * @param sexo the sexo to set
+	 * @throws Exception 
 	 */
-	public void setSexo(Sexo sexo) {
+	public void setSexo(String sexo) throws Exception {
+		if (!(sexo.equalsIgnoreCase("m") || sexo.equalsIgnoreCase("f"))) {
+			throw new ExcepcionSexo("Sexo debe ser m o f");
+		}
 		this.sexo = sexo;
 	}
 	/**
