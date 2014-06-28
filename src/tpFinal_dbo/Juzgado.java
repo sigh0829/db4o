@@ -25,14 +25,14 @@ public class Juzgado {
 	 * @param localidad
 	 */
 	public Juzgado(int numero, String fuero, Juez juez, String domicilio,
-			String localidad, ArrayList<Causa> causas) {
+			String localidad) {
 		super();
 		this.numero = numero;
 		this.fuero = fuero;
 		this.juez = juez;
 		this.domicilio = domicilio;
 		this.localidad = localidad;
-		this.causas = causas;
+		this.causas = new ArrayList <Causa>();
 	}
 
 	public class ExcepcionValidacion extends Exception {

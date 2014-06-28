@@ -7,6 +7,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 
 public class Listados {
 
@@ -18,18 +19,23 @@ public class Listados {
 			imputados.add(new Persona());
 			imputados.add(new Persona());
 
+			//Juez juez = new Juez(null, null, null);
+			
 			//creo dos personas y las agrego al arraylist
+			//Juzgado juzgado = new Juzgado(0, null, juez, null, null);
 
-			Causa causa = new Causa(0, null, imputados, null, null);
+			Causa causa = new Causa();
+			causa.setImputados(imputados);
 
-			ObjectSet<Causa> causas= db.queryByExample(causa);
+			final ObjectSet<Causa> causas= db.queryByExample(causa);
 			
 			System.out.println("Listado de Causas con sentencia que tengan mas de 2 imputados (QBE)");
 			System.out.println("-------------------------------------------------------------------");
 			for (Causa c : causas) {
+				if (c.imputados.size()>=2 && c.getSentencia() != null) //Sino no funca
 				System.out.println(c);
 			}
-			System.out.printf("\nSe encontraron %d casos\n", causas.size());
+			//System.out.printf("\nSe encontraron %d casos\n", causas.size());
 			System.out.println("-------------------------------------------------------------------");
 
 			
@@ -48,8 +54,6 @@ public class Listados {
     		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
 
     		List <Causa> causas = db.query(new Predicate<Causa>() {
-
-
 				/**
 				 * 
 				 */
@@ -104,6 +108,32 @@ public class Listados {
     }
     
     public void causasConMas2Imputados_SODA() {
+    	ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+
+        // You can simple filter objects which have a certain field
+		//Constraint constr=q.descend("sentencia").constrain(null).not;
+        //query.descend("sentencia").constrain(null).not().and(arg0);
+        //query.descend("imputados").descend("size").constrain(3).greater().and(query.descend("sentencia").constrain(null).not());
+        //query.descend("imputados").descend("size").constrain(new Integer(3)).greater();
+
+    	Query query=db.query();
+    	query.constrain(Causa.class);
+    	Query pointQuery=query.descend("imputados").descend("size");
+    	query.descend("sentencia").constrain(null).not()
+    	.and(pointQuery.constrain(new Integer(1)).smaller());
+    	ObjectSet<Causa> causas=query.execute();
+		System.out.println("------------------------------------------------------------------");
+		System.out.println("Listado de Causas con sentencia que tengan mas de 2 imputados (SODA)");
+		System.out.println("------------------------------------------------------------------");
+		for (Causa c : causas) {
+			if (c.imputados.size()>=2) //Sino no funciona!
+			System.out.println(c);
+		}
+		//System.out.printf("\nSe encontraron %d casos\n", causas.size());
+		System.out.println("-------------------------------------------------------------------");
+
+		
+		db.close();
     	
     }
     
