@@ -11,6 +11,8 @@ public class tpFinal_dbo {
 		//personasAux.add(persona);
 		Personas personas = new Personas();
 		Jueces jueces = new Jueces();
+		Juzgados juzgados = new Juzgados();
+		
 		MainMenu menu = new MainMenu();
 		MainMenu.retorno retorno = null;
 		while (retorno != MainMenu.retorno.Salir) {
@@ -38,8 +40,7 @@ public class tpFinal_dbo {
 					personas.listar();
 					break;
 					
-				case JuezAlta:
-					
+				case JuezAlta:		
 					if (jueces.add(jueces.ingresoPorTeclado())) {
 						System.out.println("Juez Guardado con Exito");
 					} else {
@@ -57,6 +58,29 @@ public class tpFinal_dbo {
 					
 				case JuezListar:
 					jueces.listar();
+					break;
+					
+				case JuzgadoAlta:		
+					if (juzgados.add(juzgados.ingresoPorTeclado())) {
+						System.out.println("Juzgado Guardado con Exito");
+					} else {
+						System.out.println("Error al Guardar Juzgado");
+					}
+					break;
+					
+				case JuzgadoModificacion:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case JuzgadoBaja:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case JuzgadoListar:
+					juzgados.listar();
+					break;
+					
+				case Salir:
 					break;
 					
 				default:

@@ -69,8 +69,9 @@ public class Personas {
 			while (true) {
 				try {
 					System.out.print("Ingrese Sexo [m=Masculino f=Femenino]: ");
+					scanner = new Scanner (System.in);
 					texto = scanner.nextLine();
-					persona.setSexo(texto);
+					persona.setSexo(texto.toLowerCase());
 					break;
 				} catch (Persona.ExcepcionValidacion e) {
 					System.out.println(e.getMessage());

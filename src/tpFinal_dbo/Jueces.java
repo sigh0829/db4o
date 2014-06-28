@@ -29,7 +29,7 @@ public class Jueces {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
 		String texto;
-		Long dni;
+		Long matricula;
 		Juez juez = new Juez();
 
 		try {
@@ -47,8 +47,8 @@ public class Jueces {
 			while (true) {
 				try {
 					System.out.print("Ingrese Matricula Profesional: ");
-					dni = scanner.nextLong();
-					juez.setMatricula(dni);
+					matricula = scanner.nextLong();
+					juez.setMatricula(matricula);
 					break;
 				} catch (RangeException e) {
 					// TODO: handle exception
@@ -59,6 +59,7 @@ public class Jueces {
 			while (true) {
 				try {
 					System.out.print("Ingrese Trayectoria: ");
+					scanner = new Scanner (System.in);
 					texto = scanner.nextLine();
 					juez.setTrayectoria(texto);
 					break;
@@ -133,5 +134,27 @@ public class Jueces {
 		existe = !jueces.isEmpty();
 		db.close();
 		return existe;
+	}
+	
+	public Juez getJuezByMatricula(final Long matricula) {
+		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		Juez juez = null;
+		
+		List <Juez> jueces = db.query(new Predicate<Juez>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7121429855479120572L;
+
+			public boolean match(Juez juez) {
+				return juez.getMatricula().equals(matricula);
+			}
+		});
+		
+		if (!jueces.isEmpty()) {
+			juez = jueces.get(0);
+		}
+		db.close();
+		return juez;
 	}
 }
