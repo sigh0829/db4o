@@ -2,8 +2,6 @@ package tpFinal_dbo;
 
 import org.w3c.dom.ranges.RangeException;
 
-import tpFinal_dbo.Juez.ExcepcionValidacion;
-
 public class Juzgado {
 	public class ExcepcionValidacion extends Exception {
 	    /**
@@ -68,7 +66,7 @@ public class Juzgado {
 		this.juez = juez;
 	}
 	/**
-	 * @param matrocula la metricula del Juez to set
+	 * @param matricula la matricula del Juez to set
 	 * @throws ExcepcionValidacion 
 	 */
 	public void setJuez(Long matricula) throws ExcepcionValidacion {

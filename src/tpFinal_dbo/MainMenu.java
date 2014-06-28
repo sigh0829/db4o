@@ -16,6 +16,10 @@ public class MainMenu {
 	    JuzgadoModificacion,
 	    JuzgadoBaja,
 	    JuzgadoListar,
+	    CausaAlta,
+	    CausaModificacion,
+	    CausaBaja,
+	    CausaListar,
 	    Salir
 	}
 	
@@ -184,6 +188,61 @@ public class MainMenu {
 			return null;
 		}
 	}
+	
+	public class CausaMenu extends MainMenu {
+		public retorno show(){
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner (System.in);
+			int selection=0;
+			int i=0;
+
+			try {
+				while(i==0) {
+					System.out.println("Seleccione una Opcion:"); 
+					System.out.println("[1] Alta"); 
+					System.out.println("[2] Modificacion"); 
+					System.out.println("[3] Baja"); 
+					System.out.println("[4] Listar"); 
+					System.out.println("[0] Volver al Menu Principal"); 
+					System.out.print("Opcion: ");
+			
+					selection = scanner.nextInt();  
+					//scanner2.close();
+					switch (selection){
+
+					case 1:
+						System.out.println("Alta de Causa");
+						return retorno.CausaAlta;
+
+					case 2:
+						System.out.println("Modificacion de Causa");
+						return retorno.CausaModificacion;
+
+					case 3:
+						System.out.println("Baja de Causas");
+						return retorno.CausaBaja;
+
+					case 4:
+						System.out.println("Listado de Causas");
+						return retorno.CausaListar;
+						
+					case 0:
+						i=1;
+						break;
+
+					default:
+						System.out.println("Opcion invalida. Intente de nuevo");
+
+					};
+				} 
+
+			} catch (Exception e) {
+				// Relanzo la excepcion
+				throw e;
+			}
+			return null;
+		}
+	}
 
 	public retorno show() {
 		@SuppressWarnings("resource")
@@ -223,9 +282,9 @@ public class MainMenu {
 				return menu.show();
 				
 			case 4:
-				System.out.println("ABM de Causas");
-				//i=1;
-				break;
+				//System.out.println("ABM de Causas");
+				menu = new MainMenu.CausaMenu();
+				return menu.show();
 
 			case 0:
 				System.out.println("Saliendo del Sistema...");

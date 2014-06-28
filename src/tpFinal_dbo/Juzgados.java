@@ -18,7 +18,7 @@ public class Juzgados {
 	    /**
 		 * 
 		 */
-		private static final long serialVersionUID = 1L;
+		private static final long serialVersionUID = 3L;
 
 		public ExcepcionJuzgadoDuplicado(String msg) {
 	        super(msg);
@@ -181,5 +181,29 @@ public class Juzgados {
 		existe = !juzgados.isEmpty();
 		db.close();
 		return existe;
+	}
+	
+	public Juzgado getJuzgadoByNumero(final int i) {
+		Juzgado juzgado = null;
+		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		
+		List <Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
+
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3074958108904637878L;
+
+			public boolean match(Juzgado juzgado) {
+				return juzgado.getNumero() == i;
+			}
+		});
+		
+		if (!juzgados.isEmpty()) {
+			juzgado = juzgados.get(0);
+		}
+		db.close();
+		return juzgado;
 	}
 }

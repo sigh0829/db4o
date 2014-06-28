@@ -156,4 +156,26 @@ public class Personas {
 		db.close();
 		return existe;
 	}
+	
+	public Persona getPersonaByDNI(final Long dni) {
+		Persona persona = null;
+		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		
+		List <Persona> personas = db.query(new Predicate<Persona>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 189422016090086047L;
+
+			public boolean match(Persona persona) {
+				return persona.getDni().equals(dni) ;
+			}
+		});
+		
+		if (!personas.isEmpty()) {
+			persona = personas.get(0);
+		}
+		db.close();
+		return persona;
+	}
 }

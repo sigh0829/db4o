@@ -12,6 +12,7 @@ public class tpFinal_dbo {
 		Personas personas = new Personas();
 		Jueces jueces = new Jueces();
 		Juzgados juzgados = new Juzgados();
+		Causas causas = new Causas();
 		
 		MainMenu menu = new MainMenu();
 		MainMenu.retorno retorno = null;
@@ -78,6 +79,26 @@ public class tpFinal_dbo {
 					
 				case JuzgadoListar:
 					juzgados.listar();
+					break;
+					
+				case CausaAlta:		
+					if (causas.add(causas.ingresoPorTeclado())) {
+						System.out.println("Causa Guardada con Exito");
+					} else {
+						System.out.println("Error al Guardar la Causa");
+					}
+					break;
+					
+				case CausaModificacion:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case CausaBaja:
+					System.out.println("Operacion aun no soportada");
+					break;
+					
+				case CausaListar:
+					causas.listar();
 					break;
 					
 				case Salir:
