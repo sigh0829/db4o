@@ -27,7 +27,7 @@ public class MainMenu {
 	    ListadoCausasConMas2Imputados_QBE,
 	    ListadoJuzgadosFueroCivil_QBE,
 	    ListadoCausasConMas2Imputados_NQ,
-	    ListadoJuzgadosFueroCivil_QN,
+	    ListadoJuzgadosFueroCivil_NQ,
 	    ListadoCausasConMas2Imputados_SODA,
 	    ListadoJuzgadosFueroCivil_SODA,
 
@@ -288,7 +288,7 @@ public class MainMenu {
 						return retorno.ListadoCausasConMas2Imputados_NQ;
 
 					case 4:
-						return retorno.ListadoJuzgadosFueroCivil_QN;
+						return retorno.ListadoJuzgadosFueroCivil_NQ;
 						
 					case 5:
 						return retorno.ListadoCausasConMas2Imputados_SODA;

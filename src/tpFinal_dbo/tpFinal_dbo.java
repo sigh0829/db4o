@@ -22,6 +22,7 @@ private static Long obtenerDNIalAzar() {
 		Causas causas = new Causas();
 		Persona persona;
 		Juez juez;
+		Listados listados = new Listados();
 
 		MainMenu menu = new MainMenu();
 		MainMenu.retorno retorno = null;
@@ -125,6 +126,30 @@ private static Long obtenerDNIalAzar() {
 					
 				case CausaListar:
 					causas.listar();
+					break;
+					
+				case ListadoCausasConMas2Imputados_QBE:
+					listados.causasConMas2Imputados_QBE();
+					break;
+					
+				case ListadoJuzgadosFueroCivil_QBE:
+					listados.juzgadosFueroCivil_QBE();
+					break;
+					
+				case ListadoCausasConMas2Imputados_NQ:
+					listados.causasConMas2Imputados_NQ();
+					break;
+					
+				case ListadoJuzgadosFueroCivil_NQ:
+					listados.juzgadosFueroCivil_NQ();
+					break;
+					
+				case ListadoCausasConMas2Imputados_SODA:
+					listados.causasConMas2Imputados_SODA();
+					break;
+					
+				case ListadoJuzgadosFueroCivil_SODA:
+					listados.juzgadosFueroCivil_SODA();
 					break;
 					
 				case Salir:
