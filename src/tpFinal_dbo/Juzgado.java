@@ -1,6 +1,13 @@
 package tpFinal_dbo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.w3c.dom.ranges.RangeException;
+
+import com.db4o.Db4oEmbedded;
+import com.db4o.ObjectContainer;
+import com.db4o.query.Predicate;
 
 public class Juzgado {
 	/**
@@ -8,6 +15,7 @@ public class Juzgado {
 	 */
 	public Juzgado() {
 		super();
+		this.causas = new ArrayList <Causa>();
 	}
 	/**
 	 * @param numero
@@ -17,13 +25,14 @@ public class Juzgado {
 	 * @param localidad
 	 */
 	public Juzgado(int numero, String fuero, Juez juez, String domicilio,
-			String localidad) {
+			String localidad, ArrayList<Causa> causas) {
 		super();
 		this.numero = numero;
 		this.fuero = fuero;
 		this.juez = juez;
 		this.domicilio = domicilio;
 		this.localidad = localidad;
+		this.causas = causas;
 	}
 
 	public class ExcepcionValidacion extends Exception {
@@ -42,6 +51,7 @@ public class Juzgado {
 	private Juez juez;
 	private String domicilio;
 	private String localidad;
+	ArrayList <Causa> causas;
 	/**
 	 * @return the numero
 	 */
@@ -150,6 +160,46 @@ public class Juzgado {
 				fuero = "xxx";
 			}
 		return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre());
+	}
+	/**
+	 * @return the causas
+	 */
+	public ArrayList<Causa> getCausas() {
+		return causas;
+	}
+	/**
+	 * @param causas the causas to set
+	 */
+	public void setCausas(ArrayList<Causa> causas) {
+		this.causas = causas;
+	}
+	
+	/**
+	 * @param causa la causa to set
+	 */
+	public void addCausa(final Causa causa)  {
+		this.causas.add(causa);
+		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+	        try {
+	            List<Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
+	                /**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+					public boolean match(Juzgado juzgado) {
+	                    return juzgado.getNumero() == causa.getJuzgado().getNumero();
+	                }
+	            });
+	            Juzgado juzgado = juzgados.get(0);
+	            //System.out.println("Old name" +driver.getName());
+	            juzgado.getCausas().add(causa);
+	            // update the pilot
+	            db.store(causa);
+	            db.store(juzgado);
+	        } finally {
+	            db.close();
+	        }
 	}
 	
 }

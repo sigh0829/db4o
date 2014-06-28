@@ -163,25 +163,25 @@ public class Causas {
 		return existe;
 	}
 	
-	public Juez getJuezByMatricula(final Long matricula) {
+	public Causa getCausaByNumero(final int numero) {
 		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		Juez juez = null;
+		Causa causa = null;
 		
-		List <Juez> jueces = db.query(new Predicate<Juez>() {
+		List <Causa> causas = db.query(new Predicate<Causa>() {
 			/**
 			 * 
 			 */
-			private static final long serialVersionUID = -7121429855479120572L;
+			private static final long serialVersionUID = -1566089738197908362L;
 
-			public boolean match(Juez juez) {
-				return juez.getMatricula().equals(matricula);
+			public boolean match(Causa causa) {
+				return (causa.getExpediente() == numero);
 			}
 		});
 		
-		if (!jueces.isEmpty()) {
-			juez = jueces.get(0);
+		if (!causas.isEmpty()) {
+			causa = causas.get(0);
 		}
 		db.close();
-		return juez;
+		return causa;
 	}
 }
