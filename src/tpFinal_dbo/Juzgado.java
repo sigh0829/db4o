@@ -7,6 +7,8 @@ import org.w3c.dom.ranges.RangeException;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
+import com.db4o.config.EmbeddedConfiguration;
+import com.db4o.internal.config.EmbeddedConfigurationImpl;
 import com.db4o.query.Predicate;
 
 public class Juzgado {
@@ -159,7 +161,8 @@ public class Juzgado {
 			default:
 				fuero = "xxx";
 			}
-		return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre());
+		//return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre());
+		return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre() + " - con sentencia: " + this.getCantCausasConSentencia() + " - sin sentencia: " + this.getCantCausasSinSentencia());
 	}
 	/**
 	 * @return the causas
@@ -200,6 +203,56 @@ public class Juzgado {
 	        } finally {
 	            db.close();
 	        }
+	}
+	
+	public int getCantCausasConSentencia() {
+		EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+        configuration.file().readOnly(true);
+		ObjectContainer db = Db4oEmbedded.openFile(configuration, "databaseFile.db4o");
+		final int numero = this.getNumero();
+		int cant = 0;
+        try {
+            List<Causa> causas = db.query(new Predicate<Causa>() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 4911269996887789011L;
+
+				public boolean match(Causa causa) {
+                    return (causa.getJuzgado().getNumero() == numero && causa.getSentencia() != null);
+                }
+            });
+            
+             cant=causas.size();
+        } finally {
+            db.close();
+        }
+        return cant;
+	}
+	
+	public int getCantCausasSinSentencia() {
+		EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+        configuration.file().readOnly(true);
+		ObjectContainer db = Db4oEmbedded.openFile(configuration, "databaseFile.db4o");
+		final int numero = this.getNumero();
+		int cant = 0;
+        try {
+            List<Causa> causas = db.query(new Predicate<Causa>() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = -7379209058218375430L;
+
+				public boolean match(Causa causa) {
+                    return (causa.getJuzgado().getNumero() == numero  && causa.getSentencia() == null);
+                }
+            });
+            
+             cant=causas.size();
+        } finally {
+            db.close();
+        }
+        return cant;
 	}
 	
 }
