@@ -3,6 +3,29 @@ package tpFinal_dbo;
 import org.w3c.dom.ranges.RangeException;
 
 public class Juzgado {
+	/**
+	 * 
+	 */
+	public Juzgado() {
+		super();
+	}
+	/**
+	 * @param numero
+	 * @param fuero
+	 * @param juez
+	 * @param domicilio
+	 * @param localidad
+	 */
+	public Juzgado(int numero, String fuero, Juez juez, String domicilio,
+			String localidad) {
+		super();
+		this.numero = numero;
+		this.fuero = fuero;
+		this.juez = juez;
+		this.domicilio = domicilio;
+		this.localidad = localidad;
+	}
+
 	public class ExcepcionValidacion extends Exception {
 	    /**
 		 * 

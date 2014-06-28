@@ -5,6 +5,23 @@ import java.util.ArrayList;
 import org.w3c.dom.ranges.RangeException;
 
 public class Causa {
+	/**
+	 * @param expediente
+	 * @param juzgado
+	 * @param imputados
+	 * @param testigos
+	 * @param sentencia
+	 */
+	public Causa(int expediente, Juzgado juzgado, ArrayList<Persona> imputados,
+			ArrayList<Persona> testigos, String sentencia) {
+		super();
+		this.expediente = expediente;
+		this.juzgado = juzgado;
+		this.imputados = imputados;
+		this.testigos = testigos;
+		this.sentencia = sentencia;
+	}
+
 	public class ExcepcionValidacion extends Exception {
 	    /**
 		 * 

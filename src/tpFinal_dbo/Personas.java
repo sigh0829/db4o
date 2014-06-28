@@ -92,7 +92,6 @@ public class Personas {
 
 			return persona;
 		} catch (Exception e) {
-			// TODO: handle exception
 			System.out.printf("ERROR EN EL SISTEMA: %s",e);
 			return null;
 		} 
@@ -113,7 +112,6 @@ public class Personas {
 
 			
 		} catch (Exception e) {
-			// TODO: handle exception
 			throw e;
         } finally {
         	
