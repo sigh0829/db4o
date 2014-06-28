@@ -24,6 +24,13 @@ public class MainMenu {
 	    CausaBaja,
 	    CausaListar,
 	    CausaAddRandom,
+	    ListadoCausasConMas2Imputados_QBE,
+	    ListadoJuzgadosFueroCivil_QBE,
+	    ListadoCausasConMas2Imputados_NQ,
+	    ListadoJuzgadosFueroCivil_QN,
+	    ListadoCausasConMas2Imputados_SODA,
+	    ListadoJuzgadosFueroCivil_SODA,
+
 	    Salir
 	}
 	
@@ -246,6 +253,66 @@ public class MainMenu {
 			return null;
 		}
 	}
+	
+	public class ListadoMenu extends MainMenu {
+		public retorno show(){
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner (System.in);
+			int selection=0;
+			int i=0;
+
+			try {
+				while(i==0) {
+					System.out.println("Seleccione una Opcion:"); 
+					System.out.println("[1] Causas con sentencia que tengan mas de 2 imputados (QueryByExample)"); 
+					System.out.println("[2] Juzgados del fuero civil que tengan al menos una causa CON sentencia y una causa SIN sentencia (QueryByExample)");
+					System.out.println("[3] Causas con sentencia que tengan mas de 2 imputados (NativeQueries)"); 
+					System.out.println("[4] Juzgados del fuero civil que tengan al menos una causa CON sentencia y una causa SIN sentencia (NativeQueries)"); 
+					System.out.println("[5] Causas con sentencia que tengan mas de 2 imputados (SODA)"); 
+					System.out.println("[6] Juzgados del fuero civil que tengan al menos una causa CON sentencia y una causa SIN sentencia (SODA)"); 
+
+					System.out.println("[0] Volver al Menu Principal"); 
+					System.out.print("Opcion: ");
+			
+					selection = scanner.nextInt();  
+					//scanner2.close();
+					switch (selection){
+
+					case 1:
+						return retorno.ListadoCausasConMas2Imputados_QBE;
+
+					case 2:
+						return retorno.ListadoJuzgadosFueroCivil_QBE;
+
+					case 3:
+						return retorno.ListadoCausasConMas2Imputados_NQ;
+
+					case 4:
+						return retorno.ListadoJuzgadosFueroCivil_QN;
+						
+					case 5:
+						return retorno.ListadoCausasConMas2Imputados_SODA;
+						
+					case 6:
+						return retorno.ListadoJuzgadosFueroCivil_SODA;
+						
+					case 0:
+						i=1;
+						break;
+
+					default:
+						System.out.println("Opcion invalida. Intente de nuevo");
+
+					};
+				} 
+
+			} catch (Exception e) {
+				// Relanzo la excepcion
+				throw e;
+			}
+			return null;
+		}
+	}
 
 	public retorno show() {
 		@SuppressWarnings("resource")
@@ -261,6 +328,7 @@ public class MainMenu {
 			System.out.println("[2] Jueces");
 			System.out.println("[3] Juzgados");
 			System.out.println("[4] Causas");
+			System.out.println("[5] Consultas");
 			System.out.println("[0] Salir"); 
 			System.out.print("Opcion: "); 
 			
@@ -287,6 +355,11 @@ public class MainMenu {
 			case 4:
 				//System.out.println("ABM de Causas");
 				menu = new MainMenu.CausaMenu();
+				return menu.show();
+				
+			case 5:
+				//System.out.println("Listados");
+				menu = new MainMenu.ListadoMenu();
 				return menu.show();
 
 			case 0:
