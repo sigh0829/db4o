@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.w3c.dom.ranges.RangeException;
 
-import tpFinal_dbo.Juzgado.ExcepcionValidacion;
-
 public class Causa {
 	public class ExcepcionValidacion extends Exception {
 	    /**
@@ -154,5 +152,24 @@ public class Causa {
 		}
 		
 		this.testigos.add(persona);
+	}
+	
+	public String toString() {
+		String retorno = "Expediente: " + this.getExpediente() + " - " +  this.getJuzgado() + " - Imputados: " + this.getImputados().size() + " - Testigos: " + this.getTestigos().size() + " - Sentencia: " + this.getSentencia();
+		if (this.getImputados().size()>0) {
+			retorno = retorno.concat("\nImputados:");
+			for (Persona imputado : this.getImputados()) {
+				retorno = retorno.concat("\n" + imputado);
+			}
+		}
+		
+		if (this.getTestigos().size()>0) {
+			retorno = retorno.concat("\nTestigos:");
+			for (Persona testigo : this.getTestigos()) {
+				retorno = retorno.concat("\n" + testigo);
+			}
+		}
+		
+		return (retorno);
 	}
 }

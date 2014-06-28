@@ -4,6 +4,24 @@ import org.w3c.dom.ranges.RangeException;
 
 public class Juez {
 	
+	/**
+	 * 
+	 */
+	public Juez() {
+		super();
+	}
+	/**
+	 * @param nombre
+	 * @param matricula
+	 * @param trayectoria
+	 */
+	public Juez(String nombre, Long matricula, String trayectoria) {
+		super();
+		this.nombre = nombre;
+		this.matricula = matricula;
+		this.trayectoria = trayectoria;
+	}
+
 	public class ExcepcionValidacion extends Exception {
 	    /**
 		 * 

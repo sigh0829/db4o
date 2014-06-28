@@ -8,18 +8,22 @@ public class MainMenu {
 	    PersonaModificacion,
 	    PersonaBaja,
 	    PersonaListar,
+	    PersonaAddRandom,
 	    JuezAlta,
 	    JuezModificacion,
 	    JuezBaja,
 	    JuezListar,
+	    JuezAddRandom,
 	    JuzgadoAlta,
 	    JuzgadoModificacion,
 	    JuzgadoBaja,
 	    JuzgadoListar,
+	    JuzgadoAddRandom,
 	    CausaAlta,
 	    CausaModificacion,
 	    CausaBaja,
 	    CausaListar,
+	    CausaAddRandom,
 	    Salir
 	}
 	
@@ -37,6 +41,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
+					System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -45,20 +50,19 @@ public class MainMenu {
 					switch (selection){
 
 					case 1:
-						System.out.println("Alta de Personas");
 						return retorno.PersonaAlta;
 
 					case 2:
-						System.out.println("Modificacion de Personas");
 						return retorno.PersonaModificacion;
 
 					case 3:
-						System.out.println("Baja de Personas");
 						return retorno.PersonaBaja;
 
 					case 4:
-						System.out.println("Listado de Personas");
 						return retorno.PersonaListar;
+						
+					case 5:
+						return retorno.PersonaAddRandom;
 						
 					case 0:
 						i=1;
@@ -92,6 +96,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
+					System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -100,20 +105,19 @@ public class MainMenu {
 					switch (selection){
 
 					case 1:
-						System.out.println("Alta de Jueces");
 						return retorno.JuezAlta;
 
 					case 2:
-						System.out.println("Modificacion de Jueces");
 						return retorno.JuezModificacion;
 
 					case 3:
-						System.out.println("Baja de Jueces");
 						return retorno.JuezBaja;
 
 					case 4:
-						System.out.println("Listado de Jueces");
 						return retorno.JuezListar;
+						
+					case 5:
+						return retorno.JuezAddRandom;
 						
 					case 0:
 						i=1;
@@ -130,7 +134,6 @@ public class MainMenu {
 				throw e;
 			}
 			return null;
-
 		}
 	}
 	
@@ -148,6 +151,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
+					System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -156,20 +160,19 @@ public class MainMenu {
 					switch (selection){
 
 					case 1:
-						System.out.println("Alta de Juzgados");
 						return retorno.JuzgadoAlta;
 
 					case 2:
-						System.out.println("Modificacion de Juzgados");
 						return retorno.JuzgadoModificacion;
 
 					case 3:
-						System.out.println("Baja de Juzgados");
 						return retorno.JuzgadoBaja;
 
 					case 4:
-						System.out.println("Listado de Juzgados");
 						return retorno.JuzgadoListar;
+						
+					case 5:
+						return retorno.JuzgadoAddRandom;
 						
 					case 0:
 						i=1;
@@ -203,6 +206,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
+					System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -211,20 +215,19 @@ public class MainMenu {
 					switch (selection){
 
 					case 1:
-						System.out.println("Alta de Causa");
 						return retorno.CausaAlta;
 
 					case 2:
-						System.out.println("Modificacion de Causa");
 						return retorno.CausaModificacion;
 
 					case 3:
-						System.out.println("Baja de Causas");
 						return retorno.CausaBaja;
 
 					case 4:
-						System.out.println("Listado de Causas");
 						return retorno.CausaListar;
+						
+					case 5:
+						return retorno.CausaAddRandom;
 						
 					case 0:
 						i=1;

@@ -126,20 +126,20 @@ public class Causas {
 		return true;
 	}
 	
-	public List<Juez> listar (){
+	public List<Causa> listar (){
 		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		List <Juez> jueces =db.query(Juez.class);
+		List <Causa> causas =db.query(Causa.class);
 		System.out.println("-----------------------");
-		System.out.println("| Listado de Jueces |");
+		System.out.println("| Listado de Causas |");
 		System.out.println("-----------------------");
 		
-		for (Juez juez : jueces) {
-			System.out.println(juez);
+		for (Causa causa : causas) {
+			System.out.println(causa);
 		}
 		System.out.println("-----------------------");
-		System.out.printf("Total %d Jueces\n", jueces.size());
+		System.out.printf("Total %d Causas\n", causas.size());
 		db.close();
-		return jueces;
+		return causas;
 	}
 	
 	public Boolean exists(final int i) {
