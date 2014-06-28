@@ -13,11 +13,9 @@ public class Juzgado {
 	        super(msg);
 	    }
 	}
-	
-	enum Fuero {civil, comercial, laboral, penal}
-	
+		
 	private int numero;
-	private Fuero fuero;
+	private String fuero;
 	private Juez juez;
 	private String domicilio;
 	private String localidad;
@@ -41,16 +39,17 @@ public class Juzgado {
 	/**
 	 * @return the fuero
 	 */
-	public Fuero getFuero() {
+	public String getFuero() {
 		return fuero;
 	}
 	/**
 	 * @param fuero the fuero to set
 	 * @throws ExcepcionValidacion 
 	 */
-	public void setFuero(Fuero fuero) throws ExcepcionValidacion {
-		if (fuero==null)
-			throw new ExcepcionValidacion("Debe especificar un Fuero");
+	public void setFuero(String fuero) throws ExcepcionValidacion {
+		if (!(fuero.equalsIgnoreCase("c") || fuero.equalsIgnoreCase("o") || fuero.equalsIgnoreCase("l") || fuero.equalsIgnoreCase("p"))) {
+			throw new ExcepcionValidacion("Fuero debe ser 'c', 'o', 'l' o 'p'");
+		}
 		this.fuero = fuero;
 	}
 	/**
@@ -112,16 +111,16 @@ public class Juzgado {
 	public String toString() {
 		String fuero = "";
 			switch (this.getFuero()) {
-			case civil:
+			case "c":
 				fuero = "Civil";
 				break;
-			case comercial:
+			case "o":
 				fuero = "Comercial";
 				break;
-			case laboral:
+			case "l":
 				fuero = "Laboral";
 				break;
-			case penal:
+			case "p":
 				fuero = "Penal";
 				break;
 			default:

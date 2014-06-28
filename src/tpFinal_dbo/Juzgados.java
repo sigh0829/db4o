@@ -6,7 +6,6 @@ import java.util.Scanner;
 import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Juzgado.ExcepcionValidacion;
-import tpFinal_dbo.Juzgado.Fuero;
 
 import com.db4o.Db4oEmbedded;
 import com.db4o.ObjectContainer;
@@ -30,7 +29,6 @@ public class Juzgados {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
 		String texto;
-		Fuero fuero;
 		int numero;
 		Long matricula;
 		Juzgado juzgado = new Juzgado();
@@ -48,39 +46,20 @@ public class Juzgados {
 					System.out.println(e.getMessage());
 				}
 			}
-			
+	
 			while (true) {
 				try {
-					fuero = null;
-					texto = "xxx";
-					while (fuero == null) {
-						scanner = new Scanner (System.in);
-						
-						switch (texto.toLowerCase()) {
-						case "c":
-							fuero = Fuero.civil;
-							break;
-						case "o":
-							fuero = Fuero.comercial;
-							break;
-						case "l":
-							fuero = Fuero.laboral;
-							break;
-						case "p":
-							fuero = Fuero.penal;
-							break;
-						default:
-							System.out.print("Ingrese Fuero [c=Civil o=Comercial l=Laboral p=Penal]: ");
-							texto = scanner.nextLine();
-						}
-					}
-					juzgado.setFuero(fuero);
+					System.out.print("Ingrese Fuero [c=Civil o=Comercial l=Laboral p=Penal]: ");
+					scanner = new Scanner (System.in);
+					texto = scanner.nextLine();
+					juzgado.setFuero(texto.toLowerCase());
 					break;
-				} catch (ExcepcionValidacion e) {
+				} catch (Juzgado.ExcepcionValidacion e) {
 					System.out.println(e.getMessage());
 				}
 			}	
-
+							
+							
 			while (true) {
 				try {
 					System.out.print("Ingrese la Matricula del Juez de Instancia: ");
