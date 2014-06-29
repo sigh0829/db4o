@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.w3c.dom.ranges.RangeException;
 
-import tpFinal_dbo.Causa.ExcepcionValidacion;
-
 import com.db4o.query.Predicate;
 
 public class Juzgado {
@@ -101,12 +99,12 @@ public class Juzgado {
 	 * @param matricula la matricula del Juez to set
 	 * @throws ExcepcionValidacion 
 	 */
-	public void setJuez(Long matricula) throws ExcepcionValidacion {
+	public void setJuez(int matricula) throws ExcepcionValidacion {
 		Jueces jueces = new Jueces();
 		Juez juez = jueces.getJuezByMatricula(matricula);
 		
 		if (juez == null) {
-			throw new ExcepcionValidacion("No Existe un Juez con Matricula " .concat(matricula.toString()));
+			throw new ExcepcionValidacion("No Existe un Juez con Matricula " + matricula);
 		}
 		this.setJuez(juez);
 	}

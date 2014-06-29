@@ -3,8 +3,6 @@ package tpFinal_dbo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
@@ -13,33 +11,37 @@ public class Listados {
 
     public void causasConMas2Imputados_QBE() {
     	try {
-    		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+    		int cant = 0;
+    		Db.getInstance();
 			//creo un arraylist  de personas imputadas
 			ArrayList<Persona> imputados= new ArrayList<Persona>();
-			imputados.add(new Persona());
-			imputados.add(new Persona());
+			imputados.add(new Persona(null, null, null, null, null));
+			imputados.add(new Persona(null, null, null, null, null));
+			
+			ArrayList<Persona> testigos= new ArrayList<Persona>();
 
-			//Juez juez = new Juez(null, null, null);
+			Juez juez = new Juez(null, 0, null);
 			
 			//creo dos personas y las agrego al arraylist
-			//Juzgado juzgado = new Juzgado(0, null, juez, null, null);
+			Juzgado juzgado = new Juzgado(0, null, juez, null, null);
 
-			Causa causa = new Causa();
+			Causa causa = new Causa(0, juzgado, imputados, testigos, null);
 			causa.setImputados(imputados);
 
-			final ObjectSet<Causa> causas= db.queryByExample(causa);
+			final ObjectSet<Causa> causas= Db.getConnection().queryByExample(causa);
 			
 			System.out.println("Listado de Causas con sentencia que tengan mas de 2 imputados (QBE)");
 			System.out.println("-------------------------------------------------------------------");
 			for (Causa c : causas) {
-				if (c.imputados.size()>=2 && c.getSentencia() != null) //Sino no funca
-				System.out.println(c);
+				if (c.imputados.size()>=2 && c.getSentencia() != null) { //Sino no funca
+					cant++;
+					System.out.println(c);
+				}
+					
 			}
-			//System.out.printf("\nSe encontraron %d casos\n", causas.size());
+			System.out.printf("\nSe encontraron %d casos\n", cant);
 			System.out.println("-------------------------------------------------------------------");
 
-			
-    		db.close();
 		} catch (Exception e) {
 			System.out.printf("ERROR EN EL SISTEMA: %s",e);
 		}
@@ -47,24 +49,24 @@ public class Listados {
 
     public void juzgadosFueroCivil_QBE() {
     	try {
-    		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+    		int cant=0;
+    		Db.getInstance();
 			Juzgado juzgadoProt = new Juzgado(0, "c", null, null, null);;
 
-			final ObjectSet<Juzgado> juzgados= db.queryByExample(juzgadoProt);
-			db.close();
+			final ObjectSet<Juzgado> juzgados= Db.getConnection().queryByExample(juzgadoProt);
 			System.out.println("--------------------------------------------------------------------------------------------------------");
 			System.out.println("Listado de juzgados del fuero civil con al menos una causa con sentencia y una causa sin sentencia (QBE)");
 			System.out.println("--------------------------------------------------------------------------------------------------------");
 			for (Juzgado juzgado : juzgados) {
 				//Me fijo que tenga causa con sentencia y causa sin sentencia
-				System.out.println(juzgado);
-				System.out.println("Causas con sentencia: " + juzgado.getCantCausasConSentencia());
-				System.out.println("Causas sin sentencia: " + juzgado.getCantCausasSinSentencia());
+				if (juzgado.getCantCausasConSentencia()>0 && juzgado.getCantCausasSinSentencia()>0) {
+					cant++;
+					System.out.println(juzgado);
+				}
 			}
-			System.out.printf("\nSe encontraron %d casos\n", juzgados.size());
+			System.out.printf("\nSe encontraron %d casos\n", cant);
 			System.out.println("--------------------------------------------------------------------------------------------------------");
 			
-    		db.close();
 		} catch (Exception e) {
 			System.out.printf("ERROR EN EL SISTEMA: %s",e);
 		}
@@ -72,9 +74,9 @@ public class Listados {
     
     public void causasConMas2Imputados_NQ() {
     	try {
-    		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+    		Db.getInstance();
 
-    		List <Causa> causas = db.query(new Predicate<Causa>() {
+    		List <Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
 				/**
 				 * 
 				 */
@@ -94,7 +96,6 @@ public class Listados {
 			System.out.println("-------------------------------------------------------------------");
 
 			
-    		db.close();
 		} catch (Exception e) {
 			System.out.printf("ERROR EN EL SISTEMA: %s",e);
 		}
@@ -102,11 +103,14 @@ public class Listados {
     
     public void juzgadosFueroCivil_NQ() {
     	try {
-    		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+    		Db.getInstance();
 
+			List <Juzgado> juzgados = Db.getConnection().query(new Predicate<Juzgado>() {
 
-			List <Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
-
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 5406016042927709882L;
 
 				public boolean match(Juzgado juzgado) {
 					return (juzgado.getFuero().equalsIgnoreCase("c") && juzgado.getCantCausasConSentencia() >0 && juzgado.getCantCausasSinSentencia() >0 );
@@ -121,43 +125,56 @@ public class Listados {
 			System.out.printf("\nSe encontraron %d casos\n", juzgados.size());
 			System.out.println("-------------------------------------------------------------------------------------------------------");
 
-    		db.close();
 		} catch (Exception e) {
 			System.out.printf("ERROR EN EL SISTEMA: %s",e);
 		}
     }
     
     public void causasConMas2Imputados_SODA() {
-    	ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+    	int cant=0;
+    	Db.getInstance();
 
-        // You can simple filter objects which have a certain field
-		//Constraint constr=q.descend("sentencia").constrain(null).not;
-        //query.descend("sentencia").constrain(null).not().and(arg0);
-        //query.descend("imputados").descend("size").constrain(3).greater().and(query.descend("sentencia").constrain(null).not());
-        //query.descend("imputados").descend("size").constrain(new Integer(3)).greater();
-
-    	Query query=db.query();
+    	Query query=Db.getConnection().query();
     	query.constrain(Causa.class);
-    	Query pointQuery=query.descend("imputados").descend("modCount");
-    	query.descend("sentencia").constrain(null).not()
-    	.and(pointQuery.constrain(new Integer(2)).greater());
+    	
+    	query.descend("sentencia").constrain(null).not().and(query.descend("imputados").descend("size").constrain(new Integer(2)).greater());
+    	
     	ObjectSet<Causa> causas=query.execute();
-		System.out.println("------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------");
 		System.out.println("Listado de Causas con sentencia que tengan mas de 2 imputados (SODA)");
-		System.out.println("------------------------------------------------------------------");
+		System.out.println("--------------------------------------------------------------------");
 		for (Causa c : causas) {
-			if (c.imputados.size()>=2) //Sino no funciona!
-			System.out.println(c);
+			if (c.imputados.size()>=2) { //Sino no funciona!
+				cant++;
+				System.out.println(c);
+			}
 		}
-		//System.out.printf("\nSe encontraron %d casos\n", causas.size());
-		System.out.println("-------------------------------------------------------------------");
-
-		
-		db.close();
+		System.out.printf("\nSe encontraron %d casos\n", cant);
+		System.out.println("--------------------------------------------------------------------");
     	
     }
     
     public void juzgadosFueroCivil_SODA() {
+    	int cant=0;
+    	Db.getInstance();
+
+    	Query query=Db.getConnection().query();
+    	query.constrain(Juzgado.class);
+    	
+    	query.descend("fuero").constrain("c");
+    	
+    	ObjectSet<Juzgado> juzgados=query.execute();
+		System.out.println("---------------------------------------------------------------------------------------------------------");
+		System.out.println("Listado de juzgados del fuero civil con al menos una causa con sentencia y una causa sin sentencia (SODA)");
+		System.out.println("---------------------------------------------------------------------------------------------------------");
+		for (Juzgado juzgado: juzgados) {
+			if (juzgado.getCantCausasConSentencia()>0 && juzgado.getCantCausasSinSentencia()>0) { //Sino no funca
+				cant++;
+				System.out.println(juzgado);
+			}
+		}
+		System.out.printf("\nSe encontraron %d casos\n", cant);
+		System.out.println("---------------------------------------------------------------------------------------------------------");
     	
     }
 }

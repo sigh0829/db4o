@@ -28,7 +28,7 @@ public class Juzgados {
 		Scanner scanner = new Scanner (System.in);
 		String texto;
 		int numero;
-		Long matricula;
+		int matricula;
 		Juzgado juzgado = new Juzgado();
 
 		try {
@@ -61,7 +61,7 @@ public class Juzgados {
 			while (true) {
 				try {
 					System.out.print("Ingrese la Matricula del Juez de Instancia: ");
-					matricula = scanner.nextLong();
+					matricula = scanner.nextInt();
 					juzgado.setJuez(matricula);
 					break;
 				} catch (ExcepcionValidacion e) {

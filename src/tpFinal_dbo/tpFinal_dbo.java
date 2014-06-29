@@ -4,7 +4,6 @@ import tpFinal_dbo.Personas.ExcepcionPersonaDuplicada;
 
 public class tpFinal_dbo {
 
-
 	public static void main(String[] args) {
 		Personas personas = new Personas();
 		Jueces jueces = new Jueces();
@@ -73,7 +72,7 @@ public class tpFinal_dbo {
 					System.out.println("A continuacion se crearan 10 jueces al azar");
 					for (int i = 0; i < 10; i++) {
 						String apellido = Utils.getRandomApellido();
-						juez = new Juez(apellido + ", " + Utils.getRandomNombre(), Utils.getRandomDNI() , "Trayectoria del Juez " + apellido);
+						juez = new Juez(apellido + ", " + Utils.getRandomNombre(), Utils.getRandomNumber(1, 32767) , "Trayectoria del Juez " + apellido);
 						jueces.add(juez);
 					}
 					System.out.println("Se han creado 10 jueces al azar");

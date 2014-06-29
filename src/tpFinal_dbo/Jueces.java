@@ -27,7 +27,7 @@ public class Jueces {
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
 		String texto;
-		Long matricula;
+		int matricula;
 		Juez juez = new Juez();
 
 		try {
@@ -45,7 +45,7 @@ public class Jueces {
 			while (true) {
 				try {
 					System.out.print("Ingrese Matricula Profesional: ");
-					matricula = scanner.nextLong();
+					matricula = scanner.nextInt();
 					juez.setMatricula(matricula);
 					break;
 				} catch (RangeException e) {
@@ -84,7 +84,7 @@ public class Jueces {
 				Db.getInstance();
 				Db.getConnection().store(juez);
 			} else {
-				throw new ExcepcionJuezDuplicado("Ya existe un juez con Matricula Profesional " .concat(juez.getMatricula().toString()));
+				throw new ExcepcionJuezDuplicado("Ya existe un juez con Matricula Profesional " + juez.getMatricula());
 			}
 
 			
@@ -111,7 +111,7 @@ public class Jueces {
 		return jueces;
 	}
 	
-	public Boolean exists(final Long matricula) {
+	public Boolean exists(final int matricula) {
 		Boolean existe;
 		
 		Db.getInstance();
@@ -123,7 +123,7 @@ public class Jueces {
 			private static final long serialVersionUID = 2269157464132657832L;
 
 			public boolean match(Juez juez) {
-				return juez.getMatricula().equals(matricula);
+				return juez.getMatricula() == matricula;
 			}
 		});
 		
@@ -131,7 +131,7 @@ public class Jueces {
 		return existe;
 	}
 	
-	public Juez getJuezByMatricula(final Long matricula) {
+	public Juez getJuezByMatricula(final int matricula) {
 		Juez juez = null;
 		
 		Db.getInstance();
@@ -142,7 +142,7 @@ public class Jueces {
 			private static final long serialVersionUID = -7121429855479120572L;
 
 			public boolean match(Juez juez) {
-				return juez.getMatricula().equals(matricula);
+				return juez.getMatricula() == matricula;
 			}
 		});
 		

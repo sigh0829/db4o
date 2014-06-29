@@ -5,6 +5,17 @@ import org.w3c.dom.ranges.RangeException;
 public class Juez {
 	
 	/**
+	 * @param nombre
+	 * @param matricula
+	 * @param trayectoria
+	 */
+	public Juez(String nombre, int matricula, String trayectoria) {
+		super();
+		this.nombre = nombre;
+		this.matricula = matricula;
+		this.trayectoria = trayectoria;
+	}
+	/**
 	 * 
 	 */
 	public Juez() {
@@ -15,12 +26,6 @@ public class Juez {
 	 * @param matricula
 	 * @param trayectoria
 	 */
-	public Juez(String nombre, Long matricula, String trayectoria) {
-		super();
-		this.nombre = nombre;
-		this.matricula = matricula;
-		this.trayectoria = trayectoria;
-	}
 
 	public class ExcepcionValidacion extends Exception {
 	    /**
@@ -34,7 +39,7 @@ public class Juez {
 	}
 	
 	private String nombre;
-	private Long matricula;
+	private int matricula;
 	private String trayectoria;
 	/**
 	 * @return the nombre
@@ -54,16 +59,18 @@ public class Juez {
 	/**
 	 * @return the matricula
 	 */
-	public Long getMatricula() {
+	public int getMatricula() {
 		return matricula;
 	}
 	/**
 	 * @param matricula the matricula to set
 	 * @throws RangeException 
 	 */
-	public void setMatricula(Long matricula) throws RangeException {
-		if (matricula.toString().length() < 2)
+	public void setMatricula(int matricula) throws RangeException {
+		if (Integer.toString(matricula).length() < 2)
 			throw new RangeException((short) 0, "El numero de matricula debe tener 2 digitos como minimo");
+		if (matricula>32767)
+			throw new RangeException((short) 0,"Numero invalido");
 		this.matricula = matricula;
 	}
 	/**
@@ -83,7 +90,7 @@ public class Juez {
 	}
 	
 	public String toString() {
-		return (this.getMatricula().toString() + " - " + this.getNombre());
+		return (this.getMatricula() + " - " + this.getNombre());
 	}
 	
 }
