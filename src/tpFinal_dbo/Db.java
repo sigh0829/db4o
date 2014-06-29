@@ -7,7 +7,7 @@ import com.db4o.config.EmbeddedConfiguration;
  * Singleton con la Conexion a la Base de Datos
  * Tuve que hacer esto para evitar que se dupliquen los objetos
  * 
- * Más info de Identity Concept
+ * Mas info de Identity Concept
  * http://community.versant.com/Documentation/Reference/db4o-8.1/java/reference/
  */
 
