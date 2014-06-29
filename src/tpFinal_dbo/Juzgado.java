@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.w3c.dom.ranges.RangeException;
 
+import tpFinal_dbo.Causa.ExcepcionValidacion;
+
 import com.db4o.query.Predicate;
 
 public class Juzgado {
@@ -174,12 +176,18 @@ public class Juzgado {
 	}
 	
 	/**
-	 * @param causa la causa to set
+	 * @param expediente el numero de expediente to set
+	 * @throws ExcepcionValidacion 
 	 */
-	public void addCausa(Causa causa)  {
-		this.causas.add(causa);
-		//Db.getInstance();
-        //Db.getConnection().store(this);
+	public void addCausa(int expediente) throws ExcepcionValidacion   {
+		Causas causas = new Causas();
+		Causa causa = causas.getCausaByNumero(expediente);
+		
+		if (causa == null) {
+			throw new ExcepcionValidacion("No Existe una Causa con expediente "  + expediente);
+		}
+			
+		this.getCausas().add(causa);		
 	}
 	
 	public int getCantCausasConSentencia() {

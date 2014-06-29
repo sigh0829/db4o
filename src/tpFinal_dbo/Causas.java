@@ -1,6 +1,5 @@
 package tpFinal_dbo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -104,15 +103,18 @@ public class Causas {
 		} 
 	}
 	
-	public Boolean add(Causa causa) throws ExcepcionCausaDuplicada {
+	public Boolean add(Causa causa) throws ExcepcionCausaDuplicada, Exception {
 		
 		try {
 			//Me fijo que no exista la Causa
 			if (!this.exists(causa.getExpediente())) {
 				Db.getInstance();
-				causa.getJuzgado().addCausa(causa);
 				Db.getConnection().store(causa);
-				//causa.getJuzgado().addCausa(causa);
+				
+				//Agrego la causa al Juzgado
+				causa.getJuzgado().addCausa(causa.getExpediente());
+				Db.getConnection().store(causa.getJuzgado());
+				
 			} else {
 				throw new ExcepcionCausaDuplicada("Ya existe una causa con Numero de Expediente " .concat(Integer.toString(causa.getExpediente())));
 			}
