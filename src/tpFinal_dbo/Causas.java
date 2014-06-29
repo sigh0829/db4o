@@ -1,5 +1,6 @@
 package tpFinal_dbo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,8 +8,6 @@ import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Causa.ExcepcionValidacion;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 import com.db4o.query.Predicate;
 
 public class Causas {
@@ -108,12 +107,12 @@ public class Causas {
 	public Boolean add(Causa causa) throws ExcepcionCausaDuplicada {
 		
 		try {
-
 			//Me fijo que no exista la Causa
 			if (!this.exists(causa.getExpediente())) {
-				ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-				db.store(causa);
-				db.close();
+				Db.getInstance();
+				causa.getJuzgado().addCausa(causa);
+				Db.getConnection().store(causa);
+				//causa.getJuzgado().addCausa(causa);
 			} else {
 				throw new ExcepcionCausaDuplicada("Ya existe una causa con Numero de Expediente " .concat(Integer.toString(causa.getExpediente())));
 			}
@@ -127,8 +126,8 @@ public class Causas {
 	}
 	
 	public List<Causa> listar (){
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		List <Causa> causas =db.query(Causa.class);
+		Db.getInstance();
+		List <Causa> causas =Db.getConnection().query(Causa.class);
 		System.out.println("-----------------------");
 		System.out.println("| Listado de Causas |");
 		System.out.println("-----------------------");
@@ -138,15 +137,13 @@ public class Causas {
 		}
 		System.out.println("-----------------------");
 		System.out.printf("Total %d Causas\n", causas.size());
-		db.close();
 		return causas;
 	}
 	
 	public Boolean exists(final int i) {
 		Boolean existe;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		
-		List <Causa> causas = db.query(new Predicate<Causa>() {
+		Db.getInstance();
+		List <Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
 
 			/**
 			 * 
@@ -159,15 +156,14 @@ public class Causas {
 		});
 		
 		existe = !causas.isEmpty();
-		db.close();
 		return existe;
 	}
 	
 	public Causa getCausaByNumero(final int numero) {
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		Db.getInstance();
 		Causa causa = null;
 		
-		List <Causa> causas = db.query(new Predicate<Causa>() {
+		List <Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
 			/**
 			 * 
 			 */
@@ -181,7 +177,6 @@ public class Causas {
 		if (!causas.isEmpty()) {
 			causa = causas.get(0);
 		}
-		db.close();
 		return causa;
 	}
 }

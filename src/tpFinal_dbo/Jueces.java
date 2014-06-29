@@ -7,8 +7,6 @@ import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Juez.ExcepcionValidacion;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 import com.db4o.query.Predicate;
 
 public class Jueces {
@@ -83,9 +81,8 @@ public class Jueces {
 
 			//Me fijo que no exista el Juez
 			if (!this.exists(juez.getMatricula())) {
-				ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-				db.store(juez);
-				db.close();
+				Db.getInstance();
+				Db.getConnection().store(juez);
 			} else {
 				throw new ExcepcionJuezDuplicado("Ya existe un juez con Matricula Profesional " .concat(juez.getMatricula().toString()));
 			}
@@ -100,8 +97,8 @@ public class Jueces {
 	}
 	
 	public List<Juez> listar (){
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		List <Juez> jueces =db.query(Juez.class);
+		Db.getInstance();
+		List <Juez> jueces =Db.getConnection().query(Juez.class);
 		System.out.println("-----------------------");
 		System.out.println("| Listado de Jueces |");
 		System.out.println("-----------------------");
@@ -111,15 +108,14 @@ public class Jueces {
 		}
 		System.out.println("-----------------------");
 		System.out.printf("Total %d Jueces\n", jueces.size());
-		db.close();
 		return jueces;
 	}
 	
 	public Boolean exists(final Long matricula) {
 		Boolean existe;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
 		
-		List <Juez> jueces = db.query(new Predicate<Juez>() {
+		Db.getInstance();
+		List <Juez> jueces = Db.getConnection().query(new Predicate<Juez>() {
 
 			/**
 			 * 
@@ -132,15 +128,14 @@ public class Jueces {
 		});
 		
 		existe = !jueces.isEmpty();
-		db.close();
 		return existe;
 	}
 	
 	public Juez getJuezByMatricula(final Long matricula) {
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
 		Juez juez = null;
 		
-		List <Juez> jueces = db.query(new Predicate<Juez>() {
+		Db.getInstance();
+		List <Juez> jueces = Db.getConnection().query(new Predicate<Juez>() {
 			/**
 			 * 
 			 */
@@ -154,7 +149,6 @@ public class Jueces {
 		if (!jueces.isEmpty()) {
 			juez = jueces.get(0);
 		}
-		db.close();
 		return juez;
 	}
 }

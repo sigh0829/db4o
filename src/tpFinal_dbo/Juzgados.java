@@ -7,8 +7,6 @@ import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Juzgado.ExcepcionValidacion;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 import com.db4o.query.Predicate;
 
 public class Juzgados {
@@ -108,14 +106,11 @@ public class Juzgados {
 			//TODO: Verificar por numero, fuero y localidad
 			//Me fijo que no exista el Juzgado
 			if (!this.exists(juzgado.getNumero())) {
-				ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-				db.store(juzgado);
-				db.close();
+				Db.getInstance();
+				Db.getConnection().store(juzgado);
 			} else {
 				throw new ExcepcionJuzgadoDuplicado("Ya existe un Juzgado con Numero " .concat(Integer.toString(juzgado.getNumero())));
-			}
-
-			
+			}		
 		} catch (Exception e) {
 			throw e;
         } finally {
@@ -125,8 +120,8 @@ public class Juzgados {
 	}
 	
 	public List<Juzgado> listar (){
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		List <Juzgado> juzgados =db.query(Juzgado.class);
+		Db.getInstance();
+		List <Juzgado> juzgados =Db.getConnection().query(Juzgado.class);
 		System.out.println("-----------------------");
 		System.out.println("| Listado de Juzgados |");
 		System.out.println("-----------------------");
@@ -136,17 +131,14 @@ public class Juzgados {
 		}
 		System.out.println("-----------------------");
 		System.out.printf("Total %d Juzgados\n", juzgados.size());
-		db.close();
 		return juzgados;
 	}
 	
 	public Boolean exists(final int i) {
 		Boolean existe;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		Db.getInstance();
 		
-		List <Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
-
-
+		List <Juzgado> juzgados = Db.getConnection().query(new Predicate<Juzgado>() {
 			/**
 			 * 
 			 */
@@ -158,17 +150,14 @@ public class Juzgados {
 		});
 		
 		existe = !juzgados.isEmpty();
-		db.close();
 		return existe;
 	}
 	
 	public Juzgado getJuzgadoByNumero(final int i) {
 		Juzgado juzgado = null;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		Db.getInstance();
 		
-		List <Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
-
-
+		List <Juzgado> juzgados = Db.getConnection().query(new Predicate<Juzgado>() {
 			/**
 			 * 
 			 */
@@ -182,7 +171,6 @@ public class Juzgados {
 		if (!juzgados.isEmpty()) {
 			juzgado = juzgados.get(0);
 		}
-		db.close();
 		return juzgado;
 	}
 }

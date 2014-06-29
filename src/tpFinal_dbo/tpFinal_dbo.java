@@ -1,20 +1,10 @@
 package tpFinal_dbo;
 
-import java.util.Random;
-
 import tpFinal_dbo.Personas.ExcepcionPersonaDuplicada;
 
 public class tpFinal_dbo {
 
-private static Long obtenerDNIalAzar() {
-	Random r = new Random();
-	int minDNI = 10000;
-	int maxDNI = 99000;
-	int random = r.nextInt(maxDNI-minDNI)+minDNI;
-	Long result = new Long(random) * 1000 + random/10;
-	
-	return result;
-}
+
 	public static void main(String[] args) {
 		Personas personas = new Personas();
 		Jueces jueces = new Jueces();
@@ -53,7 +43,7 @@ private static Long obtenerDNIalAzar() {
 				case PersonaAddRandom:
 					System.out.println("A continuacion se crearan 10 personas al azar");
 					for (int i = 0; i < 10; i++) {
-						persona = new Persona("Nombre " + i, "Apellido " + 1, obtenerDNIalAzar(), "m", "01/01/1980");
+						persona = new Persona(Utils.getRandomNombre(), Utils.getRandomApellido(), Utils.getRandomDNI(), Utils.getRandomSexo(), "01/01/1980");
 						personas.add(persona);
 					}
 					System.out.println("Se han creado 10 personas al azar");
@@ -82,7 +72,8 @@ private static Long obtenerDNIalAzar() {
 				case JuezAddRandom:
 					System.out.println("A continuacion se crearan 10 jueces al azar");
 					for (int i = 0; i < 10; i++) {
-						juez = new Juez("Juez " + i, obtenerDNIalAzar(), "Trayectoria del Juez " + i);
+						String apellido = Utils.getRandomApellido();
+						juez = new Juez(apellido + ", " + Utils.getRandomNombre(), Utils.getRandomDNI() , "Trayectoria del Juez " + apellido);
 						jueces.add(juez);
 					}
 					System.out.println("Se han creado 10 jueces al azar");
@@ -153,6 +144,7 @@ private static Long obtenerDNIalAzar() {
 					break;
 					
 				case Salir:
+					//Db.getConnection().close();
 					break;
 					
 				default:

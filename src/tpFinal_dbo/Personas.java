@@ -7,8 +7,6 @@ import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Persona.ExcepcionValidacion;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
 import com.db4o.query.Predicate;
 
 public class Personas {
@@ -103,9 +101,8 @@ public class Personas {
 
 			//Me fijo que no exista la Persona
 			if (!this.exists(persona.getDni())) {
-				ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-				db.store(persona);
-				db.close();
+				Db.getInstance();
+				Db.getConnection().store(persona);
 			} else {
 				throw new ExcepcionPersonaDuplicada("Ya existe una persona con DNI " .concat(persona.getDni().toString()));
 			}
@@ -120,8 +117,8 @@ public class Personas {
 	}
 	
 	public List<Persona> listar (){
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-		List <Persona> personas =db.query(Persona.class);
+		Db.getInstance();
+		List <Persona> personas =Db.getConnection().query(Persona.class);
 		System.out.println("-----------------------");
 		System.out.println("| Listado de Personas |");
 		System.out.println("-----------------------");
@@ -131,15 +128,14 @@ public class Personas {
 		}
 		System.out.println("-----------------------");
 		System.out.printf("Total %d Personas\n", personas.size());
-		db.close();
 		return personas;
 	}
 	
 	public Boolean exists(final Long dni) {
 		Boolean existe;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
 		
-		List <Persona> personas = db.query(new Predicate<Persona>() {
+		Db.getInstance();
+		List <Persona> personas = Db.getConnection().query(new Predicate<Persona>() {
 			/**
 			 * 
 			 */
@@ -151,15 +147,15 @@ public class Personas {
 		});
 		
 		existe = !personas.isEmpty();
-		db.close();
+		//db.close();
 		return existe;
 	}
 	
 	public Persona getPersonaByDNI(final Long dni) {
 		Persona persona = null;
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
+		Db.getInstance();
 		
-		List <Persona> personas = db.query(new Predicate<Persona>() {
+		List <Persona> personas = Db.getConnection().query(new Predicate<Persona>() {
 			/**
 			 * 
 			 */
@@ -173,7 +169,6 @@ public class Personas {
 		if (!personas.isEmpty()) {
 			persona = personas.get(0);
 		}
-		db.close();
 		return persona;
 	}
 }

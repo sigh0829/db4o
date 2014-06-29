@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.w3c.dom.ranges.RangeException;
 
-import com.db4o.Db4oEmbedded;
-import com.db4o.ObjectContainer;
-import com.db4o.config.EmbeddedConfiguration;
-import com.db4o.internal.config.EmbeddedConfigurationImpl;
 import com.db4o.query.Predicate;
 
 public class Juzgado {
@@ -180,78 +176,49 @@ public class Juzgado {
 	/**
 	 * @param causa la causa to set
 	 */
-	public void addCausa(final Causa causa)  {
+	public void addCausa(Causa causa)  {
 		this.causas.add(causa);
-		ObjectContainer db = Db4oEmbedded.openFile("databaseFile.db4o");
-	        try {
-	            List<Juzgado> juzgados = db.query(new Predicate<Juzgado>() {
-	                /**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-					public boolean match(Juzgado juzgado) {
-	                    return juzgado.getNumero() == causa.getJuzgado().getNumero();
-	                }
-	            });
-	            Juzgado juzgado = juzgados.get(0);
-	            //System.out.println("Old name" +driver.getName());
-	            juzgado.getCausas().add(causa);
-	            // update the pilot
-	            db.store(causa);
-	            db.store(juzgado);
-	        } finally {
-	            db.close();
-	        }
+		//Db.getInstance();
+        //Db.getConnection().store(this);
 	}
 	
 	public int getCantCausasConSentencia() {
-		EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
-        configuration.file().readOnly(true);
-		ObjectContainer db = Db4oEmbedded.openFile(configuration, "databaseFile.db4o");
 		final int numero = this.getNumero();
 		int cant = 0;
-        try {
-            List<Causa> causas = db.query(new Predicate<Causa>() {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 4911269996887789011L;
+		Db.getInstance();
+        List<Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 4911269996887789011L;
 
-				public boolean match(Causa causa) {
-                    return (causa.getJuzgado().getNumero() == numero && causa.getSentencia() != null);
-                }
-            });
-            
-             cant=causas.size();
-        } finally {
-            db.close();
-        }
+			public boolean match(Causa causa) {
+                return (causa.getJuzgado().getNumero() == numero && causa.getSentencia() != null);
+            }
+        });
+        
+         cant=causas.size();
+
         return cant;
 	}
 	
 	public int getCantCausasSinSentencia() {
-		EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
-        configuration.file().readOnly(true);
-		ObjectContainer db = Db4oEmbedded.openFile(configuration, "databaseFile.db4o");
+		Db.getInstance();
 		final int numero = this.getNumero();
 		int cant = 0;
-        try {
-            List<Causa> causas = db.query(new Predicate<Causa>() {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = -7379209058218375430L;
+        List<Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -7379209058218375430L;
 
-				public boolean match(Causa causa) {
-                    return (causa.getJuzgado().getNumero() == numero  && causa.getSentencia() == null);
-                }
-            });
-            
-             cant=causas.size();
-        } finally {
-            db.close();
-        }
+			public boolean match(Causa causa) {
+                return (causa.getJuzgado().getNumero() == numero  && causa.getSentencia() == null);
+            }
+        });
+        
+         cant=causas.size();
+
         return cant;
 	}
 	
