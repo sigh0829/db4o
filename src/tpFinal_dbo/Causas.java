@@ -142,7 +142,7 @@ public class Causas {
 		return causas;
 	}
 	
-	public Boolean exists(final int i) {
+	public Boolean exists(final int expediente) {
 		Boolean existe;
 		Db.getInstance();
 		List <Causa> causas = Db.getConnection().query(new Predicate<Causa>() {
@@ -153,7 +153,7 @@ public class Causas {
 			private static final long serialVersionUID = 2269157464132657832L;
 
 			public boolean match(Causa causa) {
-				return (causa.getExpediente() == i);
+				return (causa.getExpediente() == expediente);
 			}
 		});
 		
@@ -161,7 +161,7 @@ public class Causas {
 		return existe;
 	}
 	
-	public Causa getCausaByNumero(final int numero) {
+	public Causa getCausaByNumero(final int expediente) {
 		Db.getInstance();
 		Causa causa = null;
 		
@@ -172,7 +172,7 @@ public class Causas {
 			private static final long serialVersionUID = -1566089738197908362L;
 
 			public boolean match(Causa causa) {
-				return (causa.getExpediente() == numero);
+				return (causa.getExpediente() == expediente);
 			}
 		});
 		
