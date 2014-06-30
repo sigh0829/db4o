@@ -21,6 +21,17 @@ public class Causas {
 	        super(msg);
 	    }
 	}
+	
+	public class ExcepcionCausaInexistente extends Exception {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 14L;
+
+		public ExcepcionCausaInexistente(String msg) {
+	        super(msg);
+	    }
+	}
 
 	
 	public Causa ingresoPorTeclado(){
@@ -103,6 +114,168 @@ public class Causas {
 		} 
 	}
 	
+	public Causa ingresoImputadoPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Long dni;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Agregar Imputado a Causa");
+			System.out.println("------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			System.out.println("Datos de la Causa");
+			System.out.println("-----------------");
+			System.out.println(causa);
+			scanner = new Scanner (System.in);
+			
+			while (true) {
+				try {
+					System.out.print("Ingrese el DNI del Imputado a agregar a la Causa o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+						dni=Long.parseLong(texto);
+						if (dni>0)
+							causa.addImputado(dni);
+					}
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("El DNI del imputado debe ser numerico");
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return causa;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
+	public Causa eliminacionImputadoPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Long dni;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Eliminar Imputado de Causa");
+			System.out.println("--------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			System.out.println("Datos de la Causa");
+			System.out.println("-----------------");
+			System.out.println(causa);
+			scanner = new Scanner (System.in);
+			
+			while (true) {
+				try {
+					System.out.print("Ingrese el DNI del Imputado a eliminar de la Causa o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+						dni=Long.parseLong(texto);
+						if (dni>0)
+							causa.removeImputado(dni);
+					}
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("El DNI del imputado debe ser numerico");
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return causa;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
+	public Causa eliminacionPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Baja de Causas");
+			System.out.println("--------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					System.out.println("Datos de la Causa");
+					System.out.println("-----------------");
+					System.out.println(causa);
+					texto = "";
+					while (!(texto.equalsIgnoreCase("s") || texto.equalsIgnoreCase("n"))) {
+						System.out.print("Esta seguro que desea eliminar la Causa con Expediente: " + expediente + "? [s=Si, n=No]:" );
+						texto = scanner.nextLine();
+						if (texto.equalsIgnoreCase("s")) {
+							return causa;
+						} else if (texto.equalsIgnoreCase("n")) {
+							return null;
+						}
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
 	public Boolean add(Causa causa) throws ExcepcionCausaDuplicada, Exception {
 		
 		try {
@@ -125,6 +298,35 @@ public class Causas {
         	
         }
 		return true;
+	}
+	
+	public Boolean update(Causa causa) throws ExcepcionCausaInexistente, Exception {
+		
+		try {
+			//Me fijo que  exista la Causa
+			if (this.exists(causa.getExpediente())) {
+				Db.getInstance();
+				Db.getConnection().store(causa);
+			} else {
+				throw new ExcepcionCausaInexistente("No existe una Causa con Expediente " + causa.getExpediente());
+			}
+		} catch (Exception e) {
+			throw e;
+        } 
+		return true;
+	}
+	
+	public Boolean delete(Causa causa) throws ExcepcionCausaInexistente {	
+		try {
+			if (causa == null) 
+				throw new ExcepcionCausaInexistente("Causa inexistente"); 
+			
+			Db.getConnection().delete(causa);
+			return true;
+			
+		} catch (Exception e) {
+			throw e;
+        } 
 	}
 	
 	public List<Causa> listar (){

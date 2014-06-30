@@ -228,7 +228,7 @@ public class Jueces {
 		return true;
 	}
 	
-public Boolean update(Juez juez) throws ExcepcionJuezInexistente, Exception {
+	public Boolean update(Juez juez) throws ExcepcionJuezInexistente, Exception {
 		
 		try {
 			//Me fijo que  exista el Juez

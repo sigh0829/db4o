@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 import org.w3c.dom.ranges.RangeException;
 
-import tpFinal_dbo.Jueces.ExcepcionJuezInexistente;
-import tpFinal_dbo.Jueces.ExcepcionJuezViolaIntegridadReferencial;
 import tpFinal_dbo.Juzgado.ExcepcionValidacion;
 
 import com.db4o.ObjectSet;

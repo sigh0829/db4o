@@ -151,6 +151,33 @@ public class Causa {
 	}
 	
 	/**
+	 * @param dni el DNI del imputado to remove
+	 * @throws ExcepcionValidacion 
+	 */
+	public void removeImputado(Long dni) throws ExcepcionValidacion {
+		Personas personas = new Personas();
+		Persona persona = personas.getPersonaByDNI(dni);
+		Boolean esImputado = false;
+		
+		if (persona == null) {
+			throw new ExcepcionValidacion("No Existe una Persona con DNI" .concat(dni.toString()));
+		}
+		
+		//Me fijo que exista como imputado de la causa
+		for (Persona imputado : this.getImputados()) {
+			if (imputado.getDni().equals(dni)) {
+				esImputado = true;
+				break;
+			}
+		}
+		
+		if (!esImputado)
+			throw new ExcepcionValidacion("La Persona con DNI " + dni.toString() + "  no es Imputado de la causa");
+		
+		this.getImputados().remove(persona);
+	}
+	
+	/**
 	 * @param dni el DNI del testigo to set
 	 * @throws ExcepcionValidacion 
 	 */

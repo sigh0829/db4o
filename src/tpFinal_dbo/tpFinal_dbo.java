@@ -128,13 +128,45 @@ public class tpFinal_dbo {
 						System.out.println("Error al Guardar la Causa");
 					}
 					break;
+							
+				//case CausaModificacion:
+				//	System.out.println("Operacion aun no soportada");
+				//	break;
 					
-				case CausaModificacion:
-					System.out.println("Operacion aun no soportada");
+				case CausaModificacionImputadoAlta:
+					if (causas.update(causas.ingresoImputadoPorTeclado())) {
+						System.out.println("Imputado Agregado a la causa con Exito");
+					} else {
+						System.out.println("Error al Agregar Imputado a la Causa");
+					}
 					break;
 					
+				case CausaModificacionImputadoBaja:
+					if (causas.update(causas.eliminacionImputadoPorTeclado())) {
+						System.out.println("Imputado Eliminado de la causa con Exito");
+					} else {
+						System.out.println("Error al Eliminar Imputado de la Causa");
+					}
+					break;
+					
+				case CausaModificacionTestigoAlta:
+					System.out.println("CausaModificacionTestigoAlta");
+					break;
+				
+				case CausaModificacionTestigoBaja:
+					System.out.println("CausaModificacionTestigoBaja");
+					break;
+					
+				case CausaModificacionSentenciaModificacion:
+					System.out.println("CausaModificacionSentenciaModificacion");
+					break;
+				
 				case CausaBaja:
-					System.out.println("Operacion aun no soportada");
+					if (causas.delete(causas.eliminacionPorTeclado())) {
+						System.out.println("Causa Eliminada con Exito");
+					} else {
+						System.out.println("Error al Eliminar Causa");
+					}
 					break;
 					
 				case CausaListar:

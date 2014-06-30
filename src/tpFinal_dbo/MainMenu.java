@@ -24,6 +24,11 @@ public class MainMenu {
 	    CausaBaja,
 	    CausaListar,
 	    CausaAddRandom,
+	    CausaModificacionImputadoAlta,
+	    CausaModificacionImputadoBaja,
+	    CausaModificacionTestigoAlta,
+	    CausaModificacionTestigoBaja,
+	    CausaModificacionSentenciaModificacion,
 	    ListadoCausasConMas2Imputados_QBE,
 	    ListadoJuzgadosFueroCivil_QBE,
 	    ListadoCausasConMas2Imputados_NQ,
@@ -158,7 +163,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
-					System.out.println("[5] Alta Automatica"); 
+					//System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -178,8 +183,8 @@ public class MainMenu {
 					case 4:
 						return retorno.JuzgadoListar;
 						
-					case 5:
-						return retorno.JuzgadoAddRandom;
+					//case 5:
+					//	return retorno.JuzgadoAddRandom;
 						
 					case 0:
 						i=1;
@@ -213,7 +218,7 @@ public class MainMenu {
 					System.out.println("[2] Modificacion"); 
 					System.out.println("[3] Baja"); 
 					System.out.println("[4] Listar"); 
-					System.out.println("[5] Alta Automatica"); 
+					//System.out.println("[5] Alta Automatica"); 
 					System.out.println("[0] Volver al Menu Principal"); 
 					System.out.print("Opcion: ");
 			
@@ -225,7 +230,9 @@ public class MainMenu {
 						return retorno.CausaAlta;
 
 					case 2:
-						return retorno.CausaModificacion;
+						CausaEditSubMenu menu;
+						menu = new MainMenu.CausaEditSubMenu();
+						return menu.show();
 
 					case 3:
 						return retorno.CausaBaja;
@@ -233,8 +240,63 @@ public class MainMenu {
 					case 4:
 						return retorno.CausaListar;
 						
+					//case 5:
+					//	return retorno.CausaAddRandom;
+						
+					case 0:
+						i=1;
+						break;
+
+					default:
+						System.out.println("Opcion invalida. Intente de nuevo");
+
+					};
+				} 
+
+			} catch (Exception e) {
+				// Relanzo la excepcion
+				throw e;
+			}
+			return null;
+		}
+	}
+	
+	public class CausaEditSubMenu extends MainMenu {
+		public retorno show(){
+			@SuppressWarnings("resource")
+			Scanner scanner = new Scanner (System.in);
+			int selection=0;
+			int i=0;
+
+			try {
+				while(i==0) {
+					System.out.println("Seleccione una Opcion:"); 
+					System.out.println("[1] Agregar Imputado"); 
+					System.out.println("[2] Eliminar Imputado"); 
+					System.out.println("[3] Agregar Testigo"); 
+					System.out.println("[4] Eliminar Testigo");
+					System.out.println("[5] Cambiar sentencia");
+					System.out.println("[0] Volver al Menu Anterior"); 
+					System.out.print("Opcion: ");
+			
+					selection = scanner.nextInt();  
+					//scanner2.close();
+					switch (selection){
+
+					case 1:
+						return retorno.CausaModificacionImputadoAlta;
+
+					case 2:
+						return retorno.CausaModificacionImputadoBaja;
+
+					case 3:
+						return retorno.CausaModificacionTestigoAlta;
+
+					case 4:
+						return retorno.CausaModificacionTestigoBaja;
+						
 					case 5:
-						return retorno.CausaAddRandom;
+						return retorno.CausaModificacionSentenciaModificacion;
 						
 					case 0:
 						i=1;
