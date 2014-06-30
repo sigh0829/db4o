@@ -224,6 +224,116 @@ public class Causas {
 		} 
 	}
 	
+	public Causa ingresoTestigoPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Long dni;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Agregar Testigo a Causa");
+			System.out.println("-----------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			System.out.println("Datos de la Causa");
+			System.out.println("-----------------");
+			System.out.println(causa);
+			scanner = new Scanner (System.in);
+			
+			while (true) {
+				try {
+					System.out.print("Ingrese el DNI del Testigo a agregar a la Causa o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+						dni=Long.parseLong(texto);
+						if (dni>0)
+							causa.addTestigo(dni);
+					}
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("El DNI del Testigo debe ser numerico");
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return causa;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
+	public Causa eliminacionTestigoPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Long dni;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Eliminar Testigo de la Causa");
+			System.out.println("----------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			System.out.println("Datos de la Causa");
+			System.out.println("-----------------");
+			System.out.println(causa);
+			scanner = new Scanner (System.in);
+			
+			while (true) {
+				try {
+					System.out.print("Ingrese el DNI del Testigo a eliminar de la Causa o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+						dni=Long.parseLong(texto);
+						if (dni>0)
+							causa.removeTestigo(dni);
+					}
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("El DNI del Testigo debe ser numerico");
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return causa;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
 	public Causa eliminacionPorTeclado(){
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);

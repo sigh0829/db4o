@@ -192,11 +192,38 @@ public class Causa {
 		//Me fijo si ya no existe como testigo
 		for (Persona testigo : this.getTestigos()) {
 			if (testigo.getDni().equals(dni)) {
-				throw new ExcepcionValidacion("La Persona con DNI ya existe como Testigo de la causa" .concat(dni.toString()));
+				throw new ExcepcionValidacion("La Persona con DNI " + dni.toString() + " ya existe como Testigo de la causa");
 			}
 		}
 		
 		this.testigos.add(persona);
+	}
+	
+	/**
+	 * @param dni el DNI del Testigo to remove
+	 * @throws ExcepcionValidacion 
+	 */
+	public void removeTestigo(Long dni) throws ExcepcionValidacion {
+		Personas personas = new Personas();
+		Persona persona = personas.getPersonaByDNI(dni);
+		Boolean esTestigo = false;
+		
+		if (persona == null) {
+			throw new ExcepcionValidacion("No Existe una Persona con DNI" .concat(dni.toString()));
+		}
+		
+		//Me fijo que exista como testigo de la causa
+		for (Persona testigo : this.getTestigos()) {
+			if (testigo.getDni().equals(dni)) {
+				esTestigo = true;
+				break;
+			}
+		}
+		
+		if (!esTestigo)
+			throw new ExcepcionValidacion("La Persona con DNI " + dni.toString() + "  no es Testigo de la causa");
+		
+		this.getTestigos().remove(persona);
 	}
 	
 	public String toString() {

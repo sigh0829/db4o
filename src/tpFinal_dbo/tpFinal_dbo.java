@@ -150,11 +150,19 @@ public class tpFinal_dbo {
 					break;
 					
 				case CausaModificacionTestigoAlta:
-					System.out.println("CausaModificacionTestigoAlta");
+					if (causas.update(causas.ingresoTestigoPorTeclado())) {
+						System.out.println("Testigo Agregado a la causa con Exito");
+					} else {
+						System.out.println("Error al Agregar Testigo a la Causa");
+					}
 					break;
 				
 				case CausaModificacionTestigoBaja:
-					System.out.println("CausaModificacionTestigoBaja");
+					if (causas.update(causas.eliminacionTestigoPorTeclado())) {
+						System.out.println("Testigo Eliminado de la causa con Exito");
+					} else {
+						System.out.println("Error al Eliminar Testigo de la Causa");
+					}
 					break;
 					
 				case CausaModificacionSentenciaModificacion:
