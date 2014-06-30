@@ -7,9 +7,7 @@ import org.w3c.dom.ranges.RangeException;
 
 import tpFinal_dbo.Persona.ExcepcionValidacion;
 
-import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import com.db4o.query.Query;
 
 public class Personas {
 	

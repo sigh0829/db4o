@@ -64,11 +64,19 @@ public class tpFinal_dbo {
 					break;
 					
 				case JuezModificacion:
-					System.out.println("Operacion aun no soportada");
+					if (jueces.update(jueces.modificacionPorTeclado())) {
+						System.out.println("Juez Modificado con Exito");
+					} else {
+						System.out.println("Error al Modificar Juez");
+					}
 					break;
 					
 				case JuezBaja:
-					System.out.println("Operacion aun no soportada");
+					if (jueces.delete(jueces.eliminacionPorTeclado())) {
+						System.out.println("Juez Eliminado con Exito");
+					} else {
+						System.out.println("Error al Eliminar Juez");
+					}
 					break;
 					
 				case JuezListar:
