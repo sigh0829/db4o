@@ -5,9 +5,13 @@ import java.util.Scanner;
 
 import org.w3c.dom.ranges.RangeException;
 
+import tpFinal_dbo.Jueces.ExcepcionJuezInexistente;
+import tpFinal_dbo.Jueces.ExcepcionJuezViolaIntegridadReferencial;
 import tpFinal_dbo.Juzgado.ExcepcionValidacion;
 
+import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.Query;
 
 public class Juzgados {
 	
@@ -18,6 +22,28 @@ public class Juzgados {
 		private static final long serialVersionUID = 3L;
 
 		public ExcepcionJuzgadoDuplicado(String msg) {
+	        super(msg);
+	    }
+	}
+	
+	public class ExcepcionJuzgadoInexistente extends Exception {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 13L;
+
+		public ExcepcionJuzgadoInexistente(String msg) {
+	        super(msg);
+	    }
+	}
+	
+	public class ExcepcionJuzgadoViolaIntegridadReferencial extends Exception {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 23L;
+
+		public ExcepcionJuzgadoViolaIntegridadReferencial(String msg) {
 	        super(msg);
 	    }
 	}
@@ -100,6 +126,146 @@ public class Juzgados {
 		} 
 	}
 	
+	public Juzgado modificacionPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int numero, matricula;
+		Juzgado juzgado = new Juzgado();
+
+		try {
+			System.out.println("Modificacion de Juzgados");
+			System.out.println("------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Juzgado: ");
+					numero = scanner.nextInt();
+					juzgado = this.getJuzgadoByNumero(numero);
+					if (juzgado == null) {
+						System.out.println("No existe ningun Juzgado con Numero de Juzgado " + numero + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					System.out.println("Fuero actual: " + juzgado.getFuero());
+					System.out.print("Ingrese nuevo Fuero [c=Civil o=Comercial l=Laboral p=Penal] o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						juzgado.setFuero(texto.toLowerCase());
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			while (true) {
+				try {
+					System.out.println("Juez actual: " + juzgado.getJuez());
+					System.out.print("Ingrese Matricula del nuevo Juez o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+						matricula=Integer.parseInt(texto);
+						if (matricula>0)
+							juzgado.setJuez(matricula);
+					}
+					break;
+				} catch (NumberFormatException e) {
+					System.out.println("La Matricula del Juez debe ser numerica");
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					System.out.println("Domicilio actual: " + juzgado.getDomicilio());
+					System.out.print("Ingrese nuevo Domicilio o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						juzgado.setDomicilio(texto);
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			while (true) {
+				try {
+					System.out.println("Localidad actual: " + juzgado.getLocalidad());
+					System.out.print("Ingrese nueva Localidad o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						juzgado.setLocalidad(texto);
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return juzgado;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
+	public Juzgado eliminacionPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int numero;
+		Juzgado juzgado = new Juzgado();
+
+		try {
+			System.out.println("Baja de Juzgados");
+			System.out.println("----------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Juzgado: ");
+					numero = scanner.nextInt();
+					juzgado = this.getJuzgadoByNumero(numero);
+					if (juzgado == null) {
+						System.out.println("No existe ningun Juzgado con Numero " + numero + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					texto = "";
+					while (!(texto.equalsIgnoreCase("s") || texto.equalsIgnoreCase("n"))) {
+						System.out.print("Esta seguro que desea eliminar el Juzgado: " + juzgado + "? [s=Si, n=No]:" );
+						texto = scanner.nextLine();
+						if (texto.equalsIgnoreCase("s")) {
+							return juzgado;
+						} else if (texto.equalsIgnoreCase("n")) {
+							return null;
+						}
+					}
+				} catch (Exception e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
 	public Boolean add(Juzgado juzgado) throws ExcepcionJuzgadoDuplicado {
 		
 		try {
@@ -117,6 +283,45 @@ public class Juzgados {
         	
         }
 		return true;
+	}
+	
+	public Boolean update(Juzgado juzgado) throws ExcepcionJuzgadoInexistente, Exception {
+		
+		try {
+			//Me fijo que  exista el Juzgado
+			if (this.exists(juzgado.getNumero())) {
+				Db.getInstance();
+				Db.getConnection().store(juzgado);
+			} else {
+				throw new ExcepcionJuzgadoInexistente("No existe un Juzgado con Numero " + juzgado.getNumero());
+			}
+			
+		} catch (Exception e) {
+			throw e;
+        } 
+		return true;
+	}
+	
+	public Boolean delete(Juzgado juzgado) throws ExcepcionJuzgadoInexistente, ExcepcionJuzgadoViolaIntegridadReferencial {
+		
+		try {
+			if (juzgado == null) 
+				throw new ExcepcionJuzgadoInexistente("Juzgado inexistente"); 
+			
+			//Me fijo que  exista el Juzgado
+			if (!this.exists(juzgado.getNumero())) 
+				throw new ExcepcionJuzgadoInexistente("No existe un Juzgado con Numero " + juzgado.getNumero());
+
+			//Me fijo que no tenga Causas
+			if (this.juzgadoTieneCausas(juzgado.getNumero()))
+				throw new ExcepcionJuzgadoViolaIntegridadReferencial("El Juzgado Numero " + juzgado.getNumero() + " tiene Causas. No puede ser Eliminado");
+			
+			Db.getConnection().delete(juzgado);
+			return true;
+			
+		} catch (Exception e) {
+			throw e;
+        } 
 	}
 	
 	public List<Juzgado> listar (){
@@ -172,5 +377,19 @@ public class Juzgados {
 			juzgado = juzgados.get(0);
 		}
 		return juzgado;
+	}
+	
+	public Boolean juzgadoTieneCausas(int numero) {
+		Db.getInstance();
+
+    	Query query=Db.getConnection().query();
+    	query.constrain(Causa.class);
+    	
+    	query.descend("juzgado").descend("numero").constrain(numero);
+    	
+    	ObjectSet<Juzgado> causas=query.execute();
+    	
+    	return !causas.isEmpty();
+		
 	}
 }

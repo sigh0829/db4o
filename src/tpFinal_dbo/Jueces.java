@@ -228,6 +228,45 @@ public class Jueces {
 		return true;
 	}
 	
+public Boolean update(Juez juez) throws ExcepcionJuezInexistente, Exception {
+		
+		try {
+			//Me fijo que  exista el Juez
+			if (this.exists(juez.getMatricula())) {
+				Db.getInstance();
+				Db.getConnection().store(juez);
+			} else {
+				throw new ExcepcionJuezInexistente("No existe un Juez con Matricula " + juez.getMatricula());
+			}
+			
+		} catch (Exception e) {
+			throw e;
+        } 
+		return true;
+	}
+	
+	public Boolean delete(Juez juez) throws ExcepcionJuezInexistente, ExcepcionJuezViolaIntegridadReferencial {
+		
+		try {
+			if (juez == null) 
+				throw new ExcepcionJuezInexistente("Juez inexistente"); 
+			
+			//Me fijo que  exista el Juez
+			if (!this.exists(juez.getMatricula())) 
+				throw new ExcepcionJuezInexistente("No existe un Juez con Matricula " + juez.getMatricula());
+
+			//Me fijo que no exista como Juez de algun juzgado
+			if (this.isJuezACargoDeJuzgado(juez.getMatricula()))
+				throw new ExcepcionJuezViolaIntegridadReferencial("el Juez con Matricula " + juez.getMatricula() + " es Juez a cargo de un Juzgado. No puede ser Eliminado");
+			
+			Db.getConnection().delete(juez);
+			return true;
+			
+		} catch (Exception e) {
+			throw e;
+        } 
+	}
+	
 	public List<Juez> listar (){
 		Db.getInstance();
 		List <Juez> jueces =Db.getConnection().query(Juez.class);
@@ -282,45 +321,6 @@ public class Jueces {
 			juez = jueces.get(0);
 		}
 		return juez;
-	}
-	
-	public Boolean update(Juez juez) throws ExcepcionJuezInexistente, Exception {
-		
-		try {
-			//Me fijo que  exista el Juez
-			if (this.exists(juez.getMatricula())) {
-				Db.getInstance();
-				Db.getConnection().store(juez);
-			} else {
-				throw new ExcepcionJuezInexistente("No existe un Juez con Matricula " + juez.getMatricula());
-			}
-			
-		} catch (Exception e) {
-			throw e;
-        } 
-		return true;
-	}
-	
-	public Boolean delete(Juez juez) throws ExcepcionJuezInexistente, ExcepcionJuezViolaIntegridadReferencial {
-		
-		try {
-			if (juez == null) 
-				throw new ExcepcionJuezInexistente("Juez inexistente"); 
-			
-			//Me fijo que  exista el Juez
-			if (!this.exists(juez.getMatricula())) 
-				throw new ExcepcionJuezInexistente("No existe un Juez con Matricula " + juez.getMatricula());
-
-			//Me fijo que no exista como Juez de algun juzgado
-			if (this.isJuezACargoDeJuzgado(juez.getMatricula()))
-				throw new ExcepcionJuezViolaIntegridadReferencial("el Juez con Matricula " + juez.getMatricula() + " es Juez a cargo de un Juzgado. No puede ser Eliminado");
-			
-			Db.getConnection().delete(juez);
-			return true;
-			
-		} catch (Exception e) {
-			throw e;
-        } 
 	}
 	
 	public Boolean isJuezACargoDeJuzgado(int matricula) {

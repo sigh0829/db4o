@@ -157,8 +157,7 @@ public class Juzgado {
 			default:
 				fuero = "xxx";
 			}
-		//return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre());
-		return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre() + " - con sentencia: " + this.getCantCausasConSentencia() + " - sin sentencia: " + this.getCantCausasSinSentencia());
+		return ("Juzgado Nro " + this.getNumero() + " en lo " + fuero + " - " + this.getDomicilio() + " - " + this.getLocalidad() + " - Juez " + this.getJuez().getNombre() + " - [CAUSAS con sentencia: " + this.getCantCausasConSentencia() + " - sin sentencia: " + this.getCantCausasSinSentencia() + "]");
 	}
 	/**
 	 * @return the causas
