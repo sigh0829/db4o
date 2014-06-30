@@ -28,7 +28,11 @@ public class tpFinal_dbo {
 					break;
 					
 				case PersonaModificacion:
-					System.out.println("Operacion aun no soportada");
+					if (personas.update(personas.modificacionPorTeclado())) {
+						System.out.println("Persona Modificada con Exito");
+					} else {
+						System.out.println("Error al Modificar Persona");
+					}
 					break;
 					
 				case PersonaBaja:

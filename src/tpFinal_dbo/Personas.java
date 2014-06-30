@@ -22,6 +22,17 @@ public class Personas {
 	    }
 	}
 	
+	public class ExcepcionPersonaInexistente extends Exception {
+	    /**
+		 * 
+		 */
+		private static final long serialVersionUID = 10L;
+
+		public ExcepcionPersonaInexistente(String msg) {
+	        super(msg);
+	    }
+	}
+	
 	public Persona ingresoPorTeclado(){
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner (System.in);
@@ -95,6 +106,93 @@ public class Personas {
 		} 
 	}
 	
+	public Persona modificacionPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		Long dni;
+		Persona persona = new Persona();
+
+		try {
+			System.out.println("Modificacion de Personas");
+			System.out.println("------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese DNI: ");
+					dni = scanner.nextLong();
+					persona = this.getPersonaByDNI(dni);
+					if (persona == null) {
+						System.out.println("No existe ninguna persona con DNI " + dni.toString() + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					System.out.println("Apellido actual: " + persona.getApellido());
+					System.out.print("Ingrese nuevo Apellido o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						persona.setApellido(texto);
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}
+
+			while (true) {
+				try {
+					System.out.println("Nombre actual: " + persona.getNombre());
+					System.out.print("Ingrese nuevo Nombre o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						persona.setNombre(texto);
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+			
+			while (true) {
+				try {
+					System.out.println("Sexo actual: " + persona.getSexo());
+					System.out.print("Ingrese nuevo Sexo [m=Masculino f=Femenino] o presione [ENTER] para continuar: ");
+					scanner = new Scanner (System.in);
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						persona.setSexo(texto.toLowerCase());
+					break;
+				} catch (Persona.ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			
+			while (true) {
+				try {
+					System.out.println("Fecha de Nacimiento actual: " + persona.getFechaNacimiento());
+					System.out.print("Ingrese nueva fecha de Nacimiento [DD/MM/AAAA] o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0)
+						persona.setFechaNacimiento(texto);
+					break;
+				} catch (Persona.ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return persona;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
 	public Boolean add(Persona persona) throws ExcepcionPersonaDuplicada {
 		
 		try {
@@ -113,6 +211,23 @@ public class Personas {
         } finally {
         	
         }
+		return true;
+	}
+	
+	public Boolean update(Persona persona) throws ExcepcionPersonaDuplicada, Exception {
+		
+		try {
+			//Me fijo que  exista la Persona
+			if (this.exists(persona.getDni())) {
+				Db.getInstance();
+				Db.getConnection().store(persona);
+			} else {
+				throw new ExcepcionPersonaDuplicada("No existe una persona con DNI " .concat(persona.getDni().toString()));
+			}
+			
+		} catch (Exception e) {
+			throw e;
+        } 
 		return true;
 	}
 	
