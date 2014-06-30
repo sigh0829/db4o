@@ -36,8 +36,11 @@ public class tpFinal_dbo {
 					break;
 					
 				case PersonaBaja:
-					System.out.println("Operacion aun no soportada");
-					break;
+					if (personas.delete(personas.eliminacionPorTeclado())) {
+						System.out.println("Persona Eliminada con Exito");
+					} else {
+						System.out.println("Error al Eliminar Persona");
+					}					break;
 					
 				case PersonaListar:
 					personas.listar();
@@ -159,10 +162,10 @@ public class tpFinal_dbo {
 				System.out.printf("Validacion de datos: %s\n",e.getMessage());
 			}catch (Exception e) {
 				// TODO: handle exception
-				System.out.printf("ERROR EN EL SISTEMA: %s\n",e);
+				System.out.printf("ERROR EN EL SISTEMA: %s\n",e.getMessage());
 			}
 		}
-
 	}
+	
 
 }

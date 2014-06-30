@@ -32,9 +32,16 @@ public class Db {
     public static Db getInstance() {
         return INSTANCE;
     }
-    
+   
     protected void finalize() throws Throwable {
-    	super.finalize();
-    	db.close();
+    	try{
+    		
+    		System.out.println("Cierro conexion con la Base de Datos");
+    		db.close();
+    	} catch(Throwable t){
+            throw t;
+        } finally{
+        	super.finalize();
+        }
     }
 }

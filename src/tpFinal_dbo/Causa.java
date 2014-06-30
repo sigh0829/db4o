@@ -189,4 +189,20 @@ public class Causa {
 		
 		return (retorno);
 	}
+	
+	public Boolean tieneTestigo(Long dni) {
+		for (Persona testigo : this.getTestigos()) {
+			if (testigo.getDni().equals(dni))
+				return true;
+		}
+		return false;
+	}
+	
+	public Boolean tieneImputado(Long dni) {
+		for (Persona imputado : this.getImputados()) {
+			if (imputado.getDni().equals(dni))
+				return true;
+		}
+		return false;
+	}
 }
