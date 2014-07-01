@@ -386,6 +386,55 @@ public class Causas {
 		} 
 	}
 	
+	public Causa ingresoSentenciaPorTeclado(){
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner (System.in);
+		String texto;
+		int expediente;
+		Causa causa = new Causa();
+
+		try {
+			System.out.println("Agregar Sentencia a Causa");
+			System.out.println("-------------------------");
+			while (true) {
+				try {
+					System.out.print("Ingrese Numero de Expediente: ");
+					expediente = scanner.nextInt();
+					causa = this.getCausaByNumero(expediente);
+					if (causa == null) {
+						System.out.println("No existe ninguna Causa con Expediente " + expediente + ".Intente nuevamente");
+					} else {
+						break;
+					}
+				} catch (RangeException e) {
+					System.out.println(e.getMessage());
+				}
+			}
+			
+			System.out.println("Datos de la Causa");
+			System.out.println("-----------------");
+			System.out.println(causa);
+			scanner = new Scanner (System.in);
+			while (true) {
+				try {
+					System.out.print("Ingrese nueva Sentencia o presione [ENTER] para continuar: ");
+					texto = scanner.nextLine();
+					if (texto.length()>0) {
+							causa.setSentencia(texto);
+					}
+					break;
+				} catch (ExcepcionValidacion e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+
+			return causa;
+		} catch (Exception e) {
+			System.out.printf("ERROR EN EL SISTEMA: %s",e);
+			return null;
+		} 
+	}
+	
 	public Boolean add(Causa causa) throws ExcepcionCausaDuplicada, Exception {
 		
 		try {

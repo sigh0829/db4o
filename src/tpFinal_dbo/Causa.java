@@ -102,8 +102,15 @@ public class Causa {
 	}
 	/**
 	 * @param sentencia the sentencia to set
+	 * @throws ExcepcionValidacion
 	 */
-	public void setSentencia(String sentencia) {
+	public void setSentencia(String sentencia) throws ExcepcionValidacion  {
+		
+		if (this.sentencia != null) {
+			if (this.sentencia.length()>0 && sentencia.length()>0)
+				throw new ExcepcionValidacion("No se puede cambiar la sentencia de una Causa que ya tiene sentencia dictaminada!");
+		}
+		
 		if (sentencia.length()==0)
 			sentencia=null;
 		this.sentencia = sentencia;

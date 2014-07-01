@@ -166,7 +166,11 @@ public class tpFinal_dbo {
 					break;
 					
 				case CausaModificacionSentenciaModificacion:
-					System.out.println("CausaModificacionSentenciaModificacion");
+					if (causas.update(causas.ingresoSentenciaPorTeclado())) {
+						System.out.println("Sentencia cambiada con Exito");
+					} else {
+						System.out.println("Error al cambiar la sentencia de la Causa");
+					}
 					break;
 				
 				case CausaBaja:
